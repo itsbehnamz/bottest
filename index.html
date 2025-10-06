@@ -2,78 +2,55 @@
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ترسناک با اسکلت</title>
+<title>صفحه صلوات</title>
 <style>
-  body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; font-family:sans-serif; }
-  body { background: url('https://i.imgur.com/3e7a1yL.jpg') no-repeat center center fixed; background-size:cover; }
-  .menu { position:absolute; top:20px; left:20px; z-index:1000; }
-  .menu button { padding:10px 20px; font-size:20px; cursor:pointer; border:none; border-radius:5px; background:#ff0000; color:#fff; }
-  #scaryImage { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); z-index:999; transition: transform 0.2s; }
-  .shake { animation: shake 0.5s infinite; }
-  @keyframes shake {
-    0%{ transform: translate(-50%, -50%) rotate(0deg);}
-    25%{ transform: translate(-50%, -50%) rotate(5deg);}
-    50%{ transform: translate(-50%, -50%) rotate(-5deg);}
-    75%{ transform: translate(-50%, -50%) rotate(5deg);}
-    100%{ transform: translate(-50%, -50%) rotate(0deg);}
+  body {
+    margin: 0;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: black;
+    background-image: url('https://i1.delgarm.com/i/828/011124/rabbit-gif(31).gif');
+    background-size: cover;
+    background-position: center;
+    transition: background-color 1s, background-image 1s;
   }
-  .skeleton { position:absolute; width:50px; cursor:pointer; user-select:none; }
+  button {
+    position: absolute;
+    bottom: 20px;
+    padding: 15px 30px;
+    font-size: 24px;
+    cursor: pointer;
+    border: none;
+    border-radius: 10px;
+    background-color: #ffdd00;
+    color: black;
+    font-weight: bold;
+  }
 </style>
 </head>
 <body>
 
-<div class="menu">
-  <button id="showImage">ترسناک!</button>
-</div>
+<button id="salavatBtn">صلوات</button>
 
-<img id="scaryImage" src="https://i.imgur.com/3n1P4Ue.png" />
-
-<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" loop autoplay></audio>
-<audio id="crashSound" src="https://www.soundjay.com/mechanical/sounds/bone-crack-1.mp3"></audio>
+<audio id="bgMusic" src="https://v.delgarm.com/mp3/804/2021/10/29/1635536913_E3iL1.mp3" loop autoplay></audio>
+<audio id="newMusic" src="https://sedatoseda.com/wp-content/uploads/angelic-choir-6793.mp3" loop></audio>
 
 <script>
-const button = document.getElementById('showImage');
-const scaryImg = document.getElementById('scaryImage');
-const crashSound = document.getElementById('crashSound');
+const btn = document.getElementById('salavatBtn');
+const bgMusic = document.getElementById('bgMusic');
+const newMusic = document.getElementById('newMusic');
 
-button.onclick = () => {
-  scaryImg.style.transform = 'translate(-50%, -50%) scale(1)';
-  scaryImg.classList.add('shake');
-  setTimeout(()=>{ scaryImg.style.transform='translate(-50%, -50%) scale(0)'; scaryImg.classList.remove('shake'); },3000);
-};
+btn.addEventListener('click', () => {
+    // قطع صدای اولیه و پخش صدای جدید
+    bgMusic.pause();
+    newMusic.play();
 
-// اسکلت‌ها از بالا می‌افتند و روی کلیک می‌شوند
-function createSkeleton(){
-  const skel = document.createElement('img');
-  skel.src = 'https://i.imgur.com/6oPjPzX.png'; // اسکلت
-  skel.className = 'skeleton';
-  skel.style.left = Math.random()*window.innerWidth + 'px';
-  skel.style.top = '-50px';
-  document.body.appendChild(skel);
-  let speed = 2 + Math.random()*3;
-
-  // حرکت اسکلت به پایین
-  function fall(){
-    let top = parseFloat(skel.style.top);
-    if(top > window.innerHeight){
-      skel.remove();
-      return;
-    }
-    skel.style.top = (top + speed) + 'px';
-    requestAnimationFrame(fall);
-  }
-  fall();
-
-  // کلیک روی اسکلت
-  skel.onclick = () => {
-    crashSound.currentTime = 0;
-    crashSound.play();
-    skel.remove();
-  }
-}
-
-setInterval(createSkeleton,500);
+    // تغییر پس‌زمینه و عکس
+    document.body.style.backgroundColor = 'white';
+    document.body.style.backgroundImage = "url('https://media.hawzahnews.com/old/fa/Original/1397/05/28/IMG17334091.jpg')";
+});
 </script>
 
 </body>
