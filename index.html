@@ -3,72 +3,303 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Menu — YourBot</title>
+<title>همستر من — بازی پت</title>
 <style>
   :root{
-    --bg1: linear-gradient(135deg,#0d47a1,#1976d2);
-    --card:#0b2546cc;
-    --accent:#ffca28;
-    --text:#ffffff;
-    --muted:#cfe8ffcc;
-    --btn-radius:14px;
+    --bg: linear-gradient(180deg,#fff7e6,#ffd59e);
+    --card:#ffffffcc;
+    --accent:#ff9f43;
+    --good:#4caf50;
+    --bad:#e53935;
+    --muted:#6b6b6b;
+    --glass: rgba(255,255,255,0.7);
   }
-  html,body{height:100%;margin:0;font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;direction:rtl}
+  *{box-sizing:border-box}
   body{
-    display:flex;align-items:center;justify-content:center;
-    background:var(--bg1);
-    color:var(--text);
-    padding:24px;
+    margin:0;font-family: "Vazir", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    background:var(--bg);direction:rtl;color:#222;display:flex;align-items:center;justify-content:center;
+    min-height:100vh;padding:20px;
   }
+  .wrap{width:100%;max-width:720px}
   .card{
-    width:100%;max-width:520px;
-    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
-    border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
-    backdrop-filter: blur(6px);
+    background:var(--card);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,0.12);
   }
-  .brand{
-    display:flex;gap:12px;align-items:center;margin-bottom:10px;
-  }
-  .logo{
-    width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;font-size:20px;
+  header{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .avatar{
+    width:86px;height:86px;border-radius:20px;background:linear-gradient(135deg,#ffd8a8,#ffb86b);
+    display:flex;align-items:center;justify-content:center;font-size:44px;box-shadow:0 6px 18px rgba(0,0,0,0.08)
   }
   h1{margin:0;font-size:20px}
-  p.sub{margin:6px 0 18px;color:var(--muted);font-size:14px}
-  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
-  .btn{
-    display:inline-flex;align-items:center;justify-content:center;
-    gap:8px;padding:12px;border-radius:var(--btn-radius);
-    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);
-    color:var(--text);cursor:pointer;text-decoration:none;font-weight:600;
+  p.lead{margin:2px 0 0;color:var(--muted);font-size:13px}
+
+  .status-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin:14px 0}
+  .stat{
+    background:linear-gradient(180deg, rgba(0,0,0,0.02), rgba(255,255,255,0.02));padding:10px;border-radius:12px;
   }
-  .btn.accent{background:var(--accent);color:#111;border:none}
-  .btn.secondary{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
-  .full{grid-column:1/-1}
-  footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
-  @media (max-width:420px){.grid{grid-template-columns:1fr}}
+  .stat .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+  .bar{height:12px;background:rgba(0,0,0,0.06);border-radius:8px;overflow:hidden}
+  .fill{height:100%;width:50%;background:linear-gradient(90deg,var(--good),#8bc34a);transition:width .4s ease}
+
+  .controls{display:flex;gap:10px;margin-top:12px;flex-wrap:wrap}
+  .btn{flex:1;min-width:120px;padding:12px;border-radius:12px;border:none;background:var(--accent);color:#111;font-weight:700;cursor:pointer}
+  .btn.secondary{background:#fff;border:1px solid rgba(0,0,0,0.06)}
+  .center{display:flex;align-items:center;justify-content:center}
+
+  .panel{margin-top:18px;padding:12px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.4));}
+  .coins{font-weight:800;font-size:18px;color:#333}
+  .log{font-size:13px;color:var(--muted);margin-top:8px;height:48px;overflow:auto}
+
+  /* mini game */
+  .game-area{margin-top:12px;border-radius:12px;background:linear-gradient(180deg,#fff8ef,#fff0d6);padding:12px;min-height:140px;position:relative;overflow:hidden}
+  .seed{position:absolute;width:42px;height:42px;border-radius:50%;background:linear-gradient(180deg,#ffd27a,#ffb84a);display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;box-shadow:0 6px 10px rgba(0,0,0,0.09)}
+  .hint{font-size:13px;color:var(--muted);margin-top:8px}
+
+  footer{margin-top:12px;text-align:center;color:var(--muted);font-size:13px}
+  @media (max-width:540px){
+    .status-grid{grid-template-columns:1fr;gap:8px}
+    .controls{flex-direction:column}
+  }
 </style>
 </head>
 <body>
-  <div class="card">
-    <div class="brand">
-      <div class="logo">B</div>
-      <div>
-        <h1>خوش آمدید به YourBot</h1>
-        <div class="sub">منو فقط ظاهر رنگی دارد — متن و زیرمنوها همانند قبل هستند</div>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div class="avatar" id="hamsterEmoji">🐹</div>
+        <div>
+          <h1 id="title">همستر نیروانا</h1>
+          <p class="lead">نگهداری کن، بازی کن و سکه جمع کن — همسترت رو خوشحال نگه دار!</p>
+        </div>
+      </header>
+
+      <div class="status-grid">
+        <div class="stat">
+          <div class="label">گرسنگی <span id="hungerText" style="float:left">50%</span></div>
+          <div class="bar"><div id="hunger" class="fill" style="width:50%"></div></div>
+        </div>
+        <div class="stat">
+          <div class="label">شادی <span id="happyText" style="float:left">60%</span></div>
+          <div class="bar"><div id="happy" class="fill" style="width:60%"></div></div>
+        </div>
+        <div class="stat">
+          <div class="label">تمیزی <span id="cleanText" style="float:left">70%</span></div>
+          <div class="bar"><div id="clean" class="fill" style="width:70%"></div></div>
+        </div>
       </div>
+
+      <div class="controls">
+        <button class="btn" id="feedBtn">🍎 غذا دادن</button>
+        <button class="btn" id="playBtn">🎾 بازی کردن</button>
+        <button class="btn" id="cleanBtn">🛁 تمیز کردن</button>
+        <button class="btn secondary" id="resetBtn" style="min-width:100px">راه‌اندازی دوباره</button>
+      </div>
+
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div class="coins">سکه: <span id="coins">0</span></div>
+          <div class="center">
+            <button class="btn secondary" id="startMini">🟡 بازی دانه</button>
+          </div>
+        </div>
+
+        <div class="game-area" id="gameArea" style="display:none">
+          <!-- بذرها اینجا ظاهر می‌شوند -->
+        </div>
+        <div class="hint" id="hint">بازی را شروع کن تا دانه‌ها ظاهر شوند — هر دانه 1 سکه!</div>
+
+        <div class="log" id="log"></div>
+      </div>
+
+      <footer>ذخیره خودکار در مرورگرت انجام می‌شود.</footer>
     </div>
-
-    <div class="grid" role="menu" aria-label="bot menu">
-      <a class="btn" href="https://t.me/zolfalibot?start=home">🏠 خانه</a>
-      <a class="btn" href="https://t.me/zolfalibot?start=takmil">👤 پروفایل</a>
-
-      <a class="btn accent" href="https://t.me/YourBot?start=shop">🛍 فروشگاه</a>
-      <a class="btn" href="https://t.me/YourBot?start=orders">📦 سفارش‌ها</a>
-
-      <a class="btn secondary full" href="https://t.me/YourBot?start=support">💬 پشتیبانی و چت زنده</a>
-    </div>
-
-    <footer>این منو فقط نمای ظاهری را تغییر می‌دهد — متن و زیرمنوها همان هستند</footer>
   </div>
+
+<script>
+/* بازی همستر — نسخه ساده و مستقل
+   ذخیره‌سازی در localStorage
+*/
+const DEFAULT = { hunger:50, happy:60, clean:70, coins:0, lastTick:Date.now() };
+let state = loadState();
+
+const elems = {
+  hunger: document.getElementById('hunger'),
+  happy: document.getElementById('happy'),
+  clean: document.getElementById('clean'),
+  hungerText: document.getElementById('hungerText'),
+  happyText: document.getElementById('happyText'),
+  cleanText: document.getElementById('cleanText'),
+  coins: document.getElementById('coins'),
+  log: document.getElementById('log'),
+  gameArea: document.getElementById('gameArea'),
+  hint: document.getElementById('hint'),
+  hamsterEmoji: document.getElementById('hamsterEmoji'),
+};
+
+function loadState(){
+  try {
+    const s = JSON.parse(localStorage.getItem('hamster_state')||'null');
+    if(!s) return {...DEFAULT};
+    // apply time decay
+    const now = Date.now();
+    const diffMinutes = Math.floor((now - (s.lastTick||now))/60000);
+    if(diffMinutes>0){
+      s.hunger = Math.min(100, Math.max(0, s.hunger + diffMinutes*2)); // گرسنگی افزایش می‌یابد (بدتر)
+      s.happy = Math.max(0, s.happy - diffMinutes*1);
+      s.clean = Math.max(0, s.clean - diffMinutes*1);
+      s.lastTick = now;
+    }
+    return s;
+  } catch(e){ return {...DEFAULT}; }
+}
+
+function saveState(){
+  state.lastTick = Date.now();
+  localStorage.setItem('hamster_state', JSON.stringify(state));
+}
+
+function render(){
+  elems.hunger.style.width = state.hunger + '%';
+  elems.happy.style.width = state.happy + '%';
+  elems.clean.style.width = state.clean + '%';
+  elems.hungerText.textContent = state.hunger + '%';
+  elems.happyText.textContent = state.happy + '%';
+  elems.cleanText.textContent = state.clean + '%';
+  elems.coins.textContent = state.coins;
+  // رنگ بر اساس وضعیت
+  elems.hunger.style.background = state.hunger>60? 'linear-gradient(90deg,var(--good),#8bc34a)' : 'linear-gradient(90deg,#ffb74d,#ff7043)';
+  elems.happy.style.background = state.happy>50? 'linear-gradient(90deg,#66bb6a,#4caf50)' : 'linear-gradient(90deg,#ffa726,#fb8c00)';
+  elems.clean.style.background = state.clean>50? 'linear-gradient(90deg,#42a5f5,#1e88e5)' : 'linear-gradient(90deg,#ef5350,#e53935)';
+  // Emoji حالت
+  if(state.happy < 20) elems.hamsterEmoji.textContent = '😢';
+  else if(state.hunger > 80) elems.hamsterEmoji.textContent = '😵';
+  else if(state.happy > 80) elems.hamsterEmoji.textContent = '😄';
+  else elems.hamsterEmoji.textContent = '🐹';
+  saveState();
+}
+
+function log(msg){
+  const d = new Date();
+  const t = d.toLocaleTimeString('fa-IR');
+  elems.log.textContent = `[${t}] ` + msg + '\n' + elems.log.textContent;
+}
+
+// Interaction handlers
+document.getElementById('feedBtn').addEventListener('click', ()=>{
+  if(state.coins <= 0){ log('سکه کافی برای خرید غذا نداری — اول بازی دانه را انجام بده.'); return; }
+  state.coins = Math.max(0, state.coins - 1);
+  state.hunger = Math.max(0, state.hunger - 25);
+  state.happy = Math.min(100, state.happy + 8);
+  log('غذا داده شد: گرسنگی کمتر شد و شادی کمی افزایش یافت.');
+  render();
+});
+document.getElementById('playBtn').addEventListener('click', ()=>{
+  state.happy = Math.min(100, state.happy + 18);
+  state.hunger = Math.min(100, state.hunger + 6);
+  state.clean = Math.max(0, state.clean - 8);
+  log('بازی: شادی زیاد شد اما گرسنگی و کمی کثیفی هم افزایش یافت.');
+  render();
+});
+document.getElementById('cleanBtn').addEventListener('click', ()=>{
+  state.clean = Math.min(100, state.clean + 28);
+  state.happy = Math.min(100, state.happy + 4);
+  log('تمیز شد: تمیزی افزایش و شادی کمی بیشتر شد.');
+  render();
+});
+document.getElementById('resetBtn').addEventListener('click', ()=>{
+  if(confirm('آیا می‌خواهی بازی را از ابتدا شروع کنی؟ امتیازها پاک می‌شوند.')) {
+    state = {...DEFAULT};
+    saveState();
+    render();
+    log('بازی بازنشانی شد.');
+  }
+});
+
+// Mini-game: spawn seeds randomly to click
+let miniRunning = false;
+document.getElementById('startMini').addEventListener('click', ()=>{
+  if(miniRunning){ stopMini(); return; }
+  startMini();
+});
+
+function startMini(){
+  miniRunning = true;
+  elems.gameArea.style.display = 'block';
+  elems.hint.textContent = 'روی دانه‌ها بزن تا سکه بگیری — 20 ثانیه';
+  document.getElementById('startMini').textContent = '⏹ توقف بازی';
+  elems.gameArea.innerHTML = '';
+  const duration = 20; // seconds
+  const spawnInterval = 900; // ms
+  let elapsed = 0;
+  const spawnTimer = setInterval(()=>{
+    elapsed += spawnInterval/1000;
+    spawnSeed();
+    if(elapsed >= duration){
+      clearInterval(spawnTimer);
+      setTimeout(()=> stopMini(), 1000);
+    }
+  }, spawnInterval);
+
+  function spawnSeed(){
+    const seed = document.createElement('div');
+    seed.className = 'seed';
+    seed.textContent = '🌰';
+    // random pos
+    const W = elems.gameArea.clientWidth - 50;
+    const H = elems.gameArea.clientHeight - 50;
+    const x = Math.max(6, Math.floor(Math.random()*W));
+    const y = Math.max(6, Math.floor(Math.random()*H));
+    seed.style.left = x + 'px';
+    seed.style.top = y + 'px';
+    seed.style.transform = 'scale(0.6)';
+    seed.style.opacity = '0';
+    elems.gameArea.appendChild(seed);
+    // animate appear
+    requestAnimationFrame(()=>{ seed.style.transition = 'transform .18s ease, opacity .18s'; seed.style.transform='scale(1)'; seed.style.opacity='1'; });
+    // click handler
+    const timeout = setTimeout(()=> { // disappear if not clicked
+      if(seed.parentNode) seed.remove();
+    }, 3000 + Math.random()*2000);
+    seed.addEventListener('click', ()=>{
+      clearTimeout(timeout);
+      // collect coin
+      state.coins += 1;
+      // add small feedback
+      seed.textContent = '✨';
+      seed.style.transform = 'scale(1.3)';
+      setTimeout(()=>{ seed.remove(); render(); }, 250);
+      log('یک دانه جمع شد! +1 سکه');
+    });
+  }
+}
+
+function stopMini(){
+  miniRunning = false;
+  elems.gameArea.style.display = 'none';
+  elems.hint.textContent = 'بازی متوقف شد — هر بار 20 ثانیه';
+  document.getElementById('startMini').textContent = '🟡 بازی دانه';
+  elems.gameArea.innerHTML = '';
+}
+
+// Passive decay over time (هر 30 ثانیه)
+setInterval(()=>{
+  // هر تیک وضعیت بدتر می‌شود
+  state.hunger = Math.min(100, state.hunger + 1); // گرسنگی کند افزایش
+  state.happy = Math.max(0, state.happy - 1);
+  state.clean = Math.max(0, state.clean - 0.6);
+  render();
+}, 30000);
+
+// autosave and initial render
+render();
+log('بازی بارگذاری شد — خوش آمدی!');
+
+// small tip: if any value reaches critical state
+setInterval(()=>{
+  if(state.hunger >= 90) log('همستر خیلی گرسنه است! غذا بده.');
+  if(state.happy <= 15) log('همستر ناراحت است — بازی کن!');
+  if(state.clean <= 10) log('همستر خیلی کثیف شده — تمیزش کن!');
+}, 15000);
+
+</script>
 </body>
 </html>
