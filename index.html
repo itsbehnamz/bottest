@@ -1,51 +1,80 @@
 <!DOCTYPE html>
 <html lang="fa">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>صلوات‌شمار</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ترسناک با اسکلت</title>
+<style>
+  body, html { margin:0; padding:0; width:100%; height:100%; overflow:hidden; font-family:sans-serif; }
+  body { background: url('https://i.imgur.com/3e7a1yL.jpg') no-repeat center center fixed; background-size:cover; }
+  .menu { position:absolute; top:20px; left:20px; z-index:1000; }
+  .menu button { padding:10px 20px; font-size:20px; cursor:pointer; border:none; border-radius:5px; background:#ff0000; color:#fff; }
+  #scaryImage { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%) scale(0); z-index:999; transition: transform 0.2s; }
+  .shake { animation: shake 0.5s infinite; }
+  @keyframes shake {
+    0%{ transform: translate(-50%, -50%) rotate(0deg);}
+    25%{ transform: translate(-50%, -50%) rotate(5deg);}
+    50%{ transform: translate(-50%, -50%) rotate(-5deg);}
+    75%{ transform: translate(-50%, -50%) rotate(5deg);}
+    100%{ transform: translate(-50%, -50%) rotate(0deg);}
+  }
+  .skeleton { position:absolute; width:50px; cursor:pointer; user-select:none; }
+</style>
 </head>
-<body style="margin:0;overflow:hidden;text-align:center;font-family:sans-serif;background:#000;">
-  <div style="position:relative;width:100%;height:100vh;">
-    <img src="https://i1.delgarm.com/i/804/020728/6532581bf3496.jpeg" 
-         style="width:100%;height:100%;object-fit:cover;filter:brightness(0.6);position:absolute;top:0;left:0;z-index:0;">
-    <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:1;color:#fff;">
-      <h1 style="font-size:48px;margin-bottom:20px;text-shadow:2px 2px 8px #000;">صلوات‌شمار</h1>
-      <h2 id="count" style="font-size:64px;margin-bottom:40px;text-shadow:2px 2px 10px #000;">0</h2>
-      <button id="btn" style="font-size:28px;padding:20px 60px;border-radius:15px;background:#00796b;color:#fff;border:none;cursor:pointer;box-shadow:0 0 15px #0ff;margin-bottom:20px;">صلوات بفرست 🕌</button>
-      <br>
-      <button id="reset" style="font-size:20px;padding:10px 40px;border-radius:12px;background:#c62828;color:#fff;border:none;cursor:pointer;">صفر کن 🔄</button>
-    </div>
-  </div>
+<body>
 
-  <audio id="adhan" src="https://v.delgarm.com/mp3/804/2023/10/20/65324e2e13db0.MP3"></audio>
+<div class="menu">
+  <button id="showImage">ترسناک!</button>
+</div>
 
-  <script>
-    let count = parseInt(localStorage.getItem('salavatCount')) || 0;
-    const display = document.getElementById('count');
-    display.innerText = count;
+<img id="scaryImage" src="https://i.imgur.com/3n1P4Ue.png" />
 
-    const btn = document.getElementById('btn');
-    const reset = document.getElementById('reset');
-    const adhan = document.getElementById('adhan');
+<audio id="bgMusic" src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-2.mp3" loop autoplay></audio>
+<audio id="crashSound" src="https://www.soundjay.com/mechanical/sounds/bone-crack-1.mp3"></audio>
 
-    btn.onclick = () => {
-      count++;
-      localStorage.setItem('salavatCount', count);
-      display.innerText = count;
-      adhan.currentTime = 0;
-      adhan.play();
-      display.style.transform = 'scale(1.5)';
-      btn.style.transform = 'scale(1.1)';
-      setTimeout(() => display.style.transform = 'scale(1)', 150);
-      setTimeout(() => btn.style.transform = 'scale(1)', 150);
-    };
+<script>
+const button = document.getElementById('showImage');
+const scaryImg = document.getElementById('scaryImage');
+const crashSound = document.getElementById('crashSound');
 
-    reset.onclick = () => {
-      count = 0;
-      localStorage.setItem('salavatCount', count);
-      display.innerText = count;
-    };
-  </script>
+button.onclick = () => {
+  scaryImg.style.transform = 'translate(-50%, -50%) scale(1)';
+  scaryImg.classList.add('shake');
+  setTimeout(()=>{ scaryImg.style.transform='translate(-50%, -50%) scale(0)'; scaryImg.classList.remove('shake'); },3000);
+};
+
+// اسکلت‌ها از بالا می‌افتند و روی کلیک می‌شوند
+function createSkeleton(){
+  const skel = document.createElement('img');
+  skel.src = 'https://i.imgur.com/6oPjPzX.png'; // اسکلت
+  skel.className = 'skeleton';
+  skel.style.left = Math.random()*window.innerWidth + 'px';
+  skel.style.top = '-50px';
+  document.body.appendChild(skel);
+  let speed = 2 + Math.random()*3;
+
+  // حرکت اسکلت به پایین
+  function fall(){
+    let top = parseFloat(skel.style.top);
+    if(top > window.innerHeight){
+      skel.remove();
+      return;
+    }
+    skel.style.top = (top + speed) + 'px';
+    requestAnimationFrame(fall);
+  }
+  fall();
+
+  // کلیک روی اسکلت
+  skel.onclick = () => {
+    crashSound.currentTime = 0;
+    crashSound.play();
+    skel.remove();
+  }
+}
+
+setInterval(createSkeleton,500);
+</script>
+
 </body>
 </html>
