@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Menu — YourBot</title>
+<style>
+  :root{
+    --bg1: linear-gradient(135deg,#0d47a1,#1976d2);
+    --card:#0b2546cc;
+    --accent:#ffca28;
+    --text:#ffffff;
+    --muted:#cfe8ffcc;
+    --btn-radius:14px;
+  }
+  html,body{height:100%;margin:0;font-family: system-ui, "Segoe UI", Roboto, "Helvetica Neue", Arial;direction:rtl}
+  body{
+    display:flex;align-items:center;justify-content:center;
+    background:var(--bg1);
+    color:var(--text);
+    padding:24px;
+  }
+  .card{
+    width:100%;max-width:520px;
+    background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+    border-radius:18px;padding:22px;box-shadow:0 10px 30px rgba(2,6,23,0.6);
+    backdrop-filter: blur(6px);
+  }
+  .brand{
+    display:flex;gap:12px;align-items:center;margin-bottom:10px;
+  }
+  .logo{
+    width:56px;height:56px;border-radius:12px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#000;font-weight:700;font-size:20px;
+  }
+  h1{margin:0;font-size:20px}
+  p.sub{margin:6px 0 18px;color:var(--muted);font-size:14px}
+  .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;
+    gap:8px;padding:12px;border-radius:var(--btn-radius);
+    background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.04);
+    color:var(--text);cursor:pointer;text-decoration:none;font-weight:600;
+  }
+  .btn.accent{background:var(--accent);color:#111;border:none}
+  .btn.secondary{background:linear-gradient(90deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01))}
+  .full{grid-column:1/-1}
+  footer{margin-top:14px;text-align:center;color:var(--muted);font-size:13px}
+  @media (max-width:420px){.grid{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+  <div class="card">
+    <div class="brand">
+      <div class="logo">B</div>
+      <div>
+        <h1>خوش آمدید به YourBot</h1>
+        <div class="sub">منو فقط ظاهر رنگی دارد — متن و زیرمنوها همانند قبل هستند</div>
+      </div>
+    </div>
+
+    <div class="grid" role="menu" aria-label="bot menu">
+      <a class="btn" href="https://t.me/YourBot?start=home">🏠 خانه</a>
+      <a class="btn" href="https://t.me/YourBot?start=profile">👤 پروفایل</a>
+
+      <a class="btn accent" href="https://t.me/YourBot?start=shop">🛍 فروشگاه</a>
+      <a class="btn" href="https://t.me/YourBot?start=orders">📦 سفارش‌ها</a>
+
+      <a class="btn secondary full" href="https://t.me/YourBot?start=support">💬 پشتیبانی و چت زنده</a>
+    </div>
+
+    <footer>این منو فقط نمای ظاهری را تغییر می‌دهد — متن و زیرمنوها همان هستند</footer>
+  </div>
+</body>
+</html>
