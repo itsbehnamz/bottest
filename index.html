@@ -3,26 +3,27 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Hamster Clicker</title>
+<title>صلوات شمار</title>
 </head>
-<body style="margin:0;overflow:hidden;background:#fff;text-align:center;">
-<img id="hamster" 
-src="https://tse3.mm.bing.net/th/id/OIP.I3OV5HQbYuRTWzbbIdSXxAHaHa?pid=Api"
-style="width:220px;margin-top:100px;">
-<h2 id="score" style="font-family:sans-serif;">امتیاز: 0</h2>
-<button id="clickBtn" style="font-size:24px;padding:15px 40px;border-radius:10px;background:#ffbf00;border:none;cursor:pointer;">کلیک کن 🐹</button>
+<body style="margin:0;overflow:hidden;background:#f2f0e6;text-align:center;font-family:sans-serif;">
+<img src="https://tse1.mm.bing.net/th/id/OIP.kHn6xJvN0HzG5ECvIY-MZwHaEo?pid=Api" 
+style="width:100%;max-height:300px;object-fit:cover;">
+<h1 style="margin:20px 0;">صلوات شمار</h1>
+<h2 id="count" style="font-size:36px;">0</h2>
+<button id="btn" style="font-size:24px;padding:15px 40px;border-radius:12px;background:#00796b;color:#fff;border:none;cursor:pointer;">صلوات بفرست</button>
+<audio id="sound" src="https://actions.google.com/sounds/v1/religious/prayer_bell.ogg"></audio>
 <script>
-let score=0;
-const btn=document.getElementById('clickBtn');
-const scr=document.getElementById('score');
-const hamster=document.getElementById('hamster');
-const snd=new Audio('https://actions.google.com/sounds/v1/cartoon/pop.ogg');
+let count=0;
+const btn=document.getElementById('btn');
+const display=document.getElementById('count');
+const sound=document.getElementById('sound');
 btn.onclick=()=>{
-  score++;
-  scr.innerText='امتیاز: '+score;
-  snd.currentTime=0; snd.play();
-  hamster.style.transform='scale(1.1)';
-  setTimeout(()=>hamster.style.transform='scale(1)',100);
+  count++;
+  display.innerText=count;
+  sound.currentTime=0;
+  sound.play();
+  btn.style.transform='scale(1.1)';
+  setTimeout(()=>btn.style.transform='scale(1)',100);
 };
 </script>
 </body>
