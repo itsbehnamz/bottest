@@ -11,10 +11,13 @@
     justify-content: center;
     align-items: center;
     background-color: black;
-    background-image: url('https://i1.delgarm.com/i/828/011124/rabbit-gif(31).gif');
     background-size: cover;
     background-position: center;
     transition: background-color 1s, background-image 1s;
+  }
+  #mainImage {
+    width: 400px;
+    cursor: pointer;
   }
   button {
     position: absolute;
@@ -32,38 +35,31 @@
 </head>
 <body>
 
+<img id="mainImage" src="https://i1.delgarm.com/i/828/011124/rabbit-gif(31).gif" alt="عکس اصلی">
 <button id="salavatBtn">صلوات</button>
 
 <audio id="bgMusic" src="remusic-scary-loud-screaming-279745.mp3" loop></audio>
 <audio id="newMusic" src="https://sedatoseda.com/wp-content/uploads/angelic-choir-6793.mp3" loop></audio>
 
 <script>
-const btn = document.getElementById('salavatBtn');
+const mainImage = document.getElementById('mainImage');
 const bgMusic = document.getElementById('bgMusic');
 const newMusic = document.getElementById('newMusic');
+const btn = document.getElementById('salavatBtn');
 
-// تلاش برای پخش خودکار با AudioContext
-window.addEventListener('load', async () => {
-    try {
-        const context = new (window.AudioContext || window.webkitAudioContext)();
-        const source = context.createMediaElementSource(bgMusic);
-        source.connect(context.destination);
-        await bgMusic.play().catch(() => {
-            console.log("مرورگر اجازه autoplay نداد. ممکن است نیاز به اولین تعامل کاربر باشد.");
-        });
-    } catch(e) {
-        console.log("خطا در پخش خودکار:", e);
-    }
+// با کلیک روی عکس اول، آهنگ اول پخش شود
+mainImage.addEventListener('click', () => {
+    bgMusic.play();
 });
 
+// دکمه صلوات: قطع آهنگ اول، پخش آهنگ دوم و تغییر پس‌زمینه و عکس
 btn.addEventListener('click', () => {
-    // قطع صدای اولیه و پخش صدای جدید
     bgMusic.pause();
     newMusic.play();
 
-    // تغییر پس‌زمینه و عکس
     document.body.style.backgroundColor = 'white';
     document.body.style.backgroundImage = "url('https://media.hawzahnews.com/old/fa/Original/1397/05/28/IMG17334091.jpg')";
+    mainImage.style.display = 'none'; // عکس اول مخفی شود
 });
 </script>
 
