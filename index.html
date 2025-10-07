@@ -3,59 +3,35 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ترجمه فارسی قرآن — متن و صوت</title>
+  <title>ترجمه فارسی قرآن کریم</title>
   <style>
-    body{font-family: Vazirmatn, "Tahoma", sans-serif; background:#f6fbf7; color:#1b1b1b; margin:0; padding:18px; direction:rtl}
-    header{background:#0b7a54; color:#fff; padding:14px 18px; border-radius:10px}
-    h1{margin:0; font-size:20px}
-    .controls{margin:14px 0; display:flex; gap:10px; flex-wrap:wrap}
-    select, button {font-size:16px; padding:10px; border-radius:8px; border:1px solid #cfd8ce}
+    body{font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;margin:0;padding:20px;text-align:center}
+    header{background:#0b7a54;color:#fff;padding:14px;border-radius:10px;margin-bottom:16px}
+    select,button{font-size:16px;padding:10px;margin:5px;border-radius:8px;border:1px solid #ccc}
     button{background:#0b7a54;color:#fff;cursor:pointer}
-    .card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 20px rgba(16,24,32,0.06); max-width:980px; margin-top:14px}
-    #translation{white-space:pre-wrap; text-align:justify; line-height:1.9}
-    #status{margin-top:8px;color:#555}
-    .tts-controls{margin-top:10px; display:flex; gap:8px; flex-wrap:wrap}
-    audio{width:100%; margin-top:10px}
-    footer{margin-top:18px; color:#666; font-size:13px}
-    @media (max-width:600px){ header{padding:10px} select,button{font-size:15px} }
+    .card{background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:0 auto}
+    #translation{white-space:pre-wrap;text-align:justify;line-height:1.9;margin-top:15px}
+    audio{width:100%;margin-top:10px}
+    #status{color:#555;margin-top:10px}
   </style>
 </head>
 <body>
-  <header>
-    <h1>📖 ترجمه فارسی قرآن — متن و پخش صوتی</h1>
-  </header>
+  <header><h1>📖 ترجمه فارسی قرآن کریم</h1></header>
 
   <div class="card">
-    <div class="controls">
-      <label for="surahSelect">انتخاب سوره:</label>
-      <select id="surahSelect" aria-label="انتخاب سوره"></select>
-      <button id="showBtn">نمایش ترجمه</button>
-      <button id="playAudioBtn">پخش صوت (سعی برای فایل خارجی)</button>
-      <button id="speakBtn">پخش با صداسازی مرورگر (TTS)</button>
-      <button id="stopTTSBtn">توقف TTS</button>
-    </div>
+    <label for="surahSelect">انتخاب سوره:</label>
+    <select id="surahSelect"></select>
+    <button id="showBtn">نمایش ترجمه</button>
+    <button id="playAudioBtn">پخش صوت</button>
 
-    <div id="status">وضعیت: آماده</div>
-
-    <div id="result" class="card">
-      <h3 id="surahTitle">ترجمه سوره — انتخاب کن</h3>
-      <div id="translation">فعلا متنی بارگذاری نشده.</div>
-      <audio id="audioPlayer" controls crossorigin="anonymous" style="display:none"></audio>
-
-      <div class="tts-controls" id="ttsControls" style="display:none">
-        <small>کنترل TTS: در صورتی که صدای فارسی در مرورگر موجود باشد بهتر است.</small>
-      </div>
-    </div>
-
-    <footer>
-      ترجمه متنی از API آنلاین (Ansanrian) — تلاش برای استفاده از فایل‌های صوتی ایرانی (مثلاً MasoudRiaei). در صورت عدم دسترسی به فایل، از صداسازی مرورگر (TTS) استفاده می‌شود.
-      <br>اگر می‌خواهی لینک‌های mp3 مخصوص یک منبع را داخل پروژه قرار دهم (فایل‌های محلی یا لینک مستقیم)، بگو تا لیست کامل را بسازم.
-    </footer>
+    <div id="status">آماده</div>
+    <h3 id="surahTitle"></h3>
+    <div id="translation">برای شروع یک سوره انتخاب کنید.</div>
+    <audio id="audioPlayer" controls style="display:none"></audio>
   </div>
 
 <script>
-/* ===== لیست کامل سوره‌ها (۱ تا ۱۱۴) ===== */
-const surahNames = [
+const surahNames=[
 "الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
 "هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج",
 "المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب",
@@ -67,225 +43,43 @@ const surahNames = [
 "الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه",
 "الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
 ];
-
-/* المان‌ها */
-const surahSelect = document.getElementById('surahSelect');
-const showBtn = document.getElementById('showBtn');
-const playAudioBtn = document.getElementById('playAudioBtn');
-const speakBtn = document.getElementById('speakBtn');
-const stopTTSBtn = document.getElementById('stopTTSBtn');
-const status = document.getElementById('status');
-const surahTitle = document.getElementById('surahTitle');
-const translationDiv = document.getElementById('translation');
-const audioPlayer = document.getElementById('audioPlayer');
-const ttsControls = document.getElementById('ttsControls');
-
-/* پر کردن منوی انتخاب */
-surahNames.forEach((name, idx) => {
-  const o = document.createElement('option');
-  o.value = idx + 1;
-  o.textContent = `${idx+1}. ${name}`;
-  surahSelect.appendChild(o);
+const select=document.getElementById("surahSelect");
+const showBtn=document.getElementById("showBtn");
+const playBtn=document.getElementById("playAudioBtn");
+const title=document.getElementById("surahTitle");
+const translation=document.getElementById("translation");
+const status=document.getElementById("status");
+const audio=document.getElementById("audioPlayer");
+surahNames.forEach((n,i)=>{
+  const opt=document.createElement("option");
+  opt.value=i+1;
+  opt.textContent=`${i+1}. ${n}`;
+  select.appendChild(opt);
 });
-
-/* وضعیت و متن ترجمه فعلی */
-let currentTranslationText = '';
-let currentSurahNumber = 1;
-
-/* تابع گرفتن ترجمه از API (fa.ansarian) */
-async function fetchTranslation(surahNumber) {
-  status.textContent = 'در حال دریافت ترجمه از سرور...';
-  translationDiv.textContent = 'در حال دریافت ترجمه...';
-  try {
-    const res = await fetch(`https://api.alquran.cloud/v1/surah/${surahNumber}/fa.ansarian`);
-    const j = await res.json();
-    if (!j || !j.data || !j.data.ayahs) throw new Error('پاسخ نامعتبر از API');
-    // جمع‌آوری متن ترجمه
-    const ayahs = j.data.ayahs.map(a => `${a.numberInSurah}. ${a.text}`);
-    currentTranslationText = ayahs.join('\n\n');
-    const title = `${j.data.number}. ${j.data.englishName} — ${j.data.name}`;
-    surahTitle.textContent = title;
-    translationDiv.innerHTML = currentTranslationText.replace(/\n\n/g, '<br><br>');
-    status.textContent = 'ترجمه دریافت شد.';
-  } catch (err) {
-    console.error(err);
-    translationDiv.textContent = 'خطا در دریافت ترجمه. بررسی اتصال اینترنت یا بعدا تلاش کنید.';
-    status.textContent = 'خطا در گرفتن ترجمه.';
-    currentTranslationText = '';
+async function fetchTranslation(num){
+  status.textContent="در حال دریافت ترجمه...";
+  try{
+    const r=await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
+    const j=await r.json();
+    const ayahs=j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
+    translation.innerHTML=ayahs.join("<br><br>");
+    title.textContent=`${num}. ${j.data.name}`;
+    status.textContent="ترجمه آماده است.";
+  }catch(e){
+    translation.textContent="خطا در بارگذاری ترجمه.";
+    status.textContent="❌ خطا در دریافت ترجمه.";
   }
 }
-
-/* دکمه نمایش ترجمه */
-showBtn.addEventListener('click', () => {
-  const n = Number(surahSelect.value) || 1;
-  currentSurahNumber = n;
-  // بارگذاری ترجمه
-  fetchTranslation(n);
-  // مخفی کردن پلیر خام (تا وقتی کاربر صریحا پخش نکند)
-  audioPlayer.style.display = 'none';
-  audioPlayer.src = '';
-});
-
-/* ===== تلاش برای بارگذاری فایل صوتی خارجی (لیست الگوهای احتمالی) =====
-  روش: یک آرایه از الگوها می‌سازیم و به‌ ترتیب امتحان می‌کنیم.
-  اگر هیچکدام قابل پخش نبودند، به TTS می‌رویم.
-*/
-function makeCandidates(n) {
-  const p2 = String(n).padStart(2,'0'); // 01 .. 99
-  const p3 = String(n).padStart(3,'0'); // 001 .. 114
-  // الگوهای محتمل (برخی احتمالی — اگر سرور مسیر دقیق متفاوت باشد ممکن است کار نکند)
-  return [
-    `https://dl.masoudriaei.com/quran-translation-fa/${p2}.mp3`,
-    `https://dl.masoudriaei.com/quran-translation-fa/${p3}.mp3`,
-    `https://dl.masoudriaei.com/quran_translation/farsi/${p3}.mp3`,
-    `https://dl.masoudriaei.com/quran_translation/farsi/${p2}.mp3`,
-    // بعضی سایت‌ها فایل‌ها را تحت مسیرهای دیگر یا روی CDN می‌گذارند — این‌ها برداشت‌های محتمل‌اند:
-    `https://cdn.masoudriaei.com/quran-translation/${p3}.mp3`,
-    `https://dl.masoudriaei.com/quran-translation/${p3}.mp3`
-  ];
-}
-
-/* تلاش ترتیبی برای بارگذاری لینک‌ها */
-let tryingIndex = -1;
-function tryNextCandidate(n, candidates) {
-  tryingIndex++;
-  if (tryingIndex >= candidates.length) {
-    // همه الگوها امتحان شدند و موفق نشد -> به TTS می‌رویم
-    status.textContent = 'فایل صوتی خارجی پیدا نشد یا قابل پخش نیست — از صداسازی مرورگر استفاده کنید.';
-    audioPlayer.style.display = 'none';
-    showTTSControls(true);
-    return;
-  }
-  const url = candidates[tryingIndex];
-  status.textContent = `در حال تلاش برای بارگذاری فایل صوتی (الگو ${tryingIndex+1}/${candidates.length})...`;
-  // تنظیم به عنوان منبع برای عنصر audio و گوش دادن به رویدادهای canplay و error
-  audioPlayer.src = url;
-  audioPlayer.style.display = 'block';
-  audioPlayer.load();
-
-  // Timeout در صورتیکه canplay فراخوانی نشود (مثلاً سرور پاسخ نمی‌دهد)
-  let timedOut = false;
-  const timeoutId = setTimeout(() => {
-    timedOut = true;
-    // پاکسازی src و رفتن به گزینه بعدی
-    audioPlayer.pause();
-    audioPlayer.src = '';
-    tryNextCandidate(n, candidates);
-  }, 8000); // 8 ثانیه برای تلاش هر لینک
-
-  function cleanupAndPlay() {
-    clearTimeout(timeoutId);
-    audioPlayer.removeEventListener('canplay', onCanPlay);
-    audioPlayer.removeEventListener('error', onError);
-    // اگر canplay رخ دهد، یعنی فایل قابل پخش است
-    status.textContent = `فایل صوتی پیدا شد: ${url}`;
-    showTTSControls(false);
-    // اجازه به کاربر برای پخش/مکث (خودکار پخش را تنها با کلیک کاربر انجام بدهیم)
-    // فقط اگر قبلاً کاربر کلیک کرده باشد روی دکمه پخش، می‌توانیم autoplay کنیم:
-    // در اینجا به جای autoplay خودکار، صرفا منبع قرار می‌گیرد و کاربر با کنترل audio پخش می‌کند
-  }
-  function onCanPlay() {
-    if (timedOut) return;
-    cleanupAndPlay();
-  }
-  function onError() {
-    if (timedOut) return;
-    clearTimeout(timeoutId);
-    audioPlayer.removeEventListener('canplay', onCanPlay);
-    audioPlayer.removeEventListener('error', onError);
-    // لینک نامعتبر یا دسترسی مسدود → گزینه بعدی
-    audioPlayer.pause();
-    audioPlayer.src = '';
-    tryNextCandidate(n, candidates);
-  }
-
-  audioPlayer.addEventListener('canplay', onCanPlay);
-  audioPlayer.addEventListener('error', onError);
-}
-
-/* دکمه "پخش صوت (فایل خارجی)" */
-playAudioBtn.addEventListener('click', () => {
-  // اگر ترجمه متن هنوز بارگذاری نشده باشد، اول متن را بگیر
-  const n = Number(surahSelect.value) || currentSurahNumber || 1;
-  currentSurahNumber = n;
-  if (!currentTranslationText) {
-    fetchTranslation(n).then(() => {
-      startAudioTrials(n);
-    }).catch(() => startAudioTrials(n));
-  } else {
-    startAudioTrials(n);
-  }
-});
-
-function startAudioTrials(n){
-  // شروع تلاش‌ها
-  tryingIndex = -1;
-  const candidates = makeCandidates(n);
-  status.textContent = 'آغاز جستجوی فایل صوتی خارجی... (ممکن است چند ثانیه طول بکشد)';
-  showTTSControls(false);
-  tryNextCandidate(n, candidates);
-}
-
-/* ===== TTS (پخش با صداسازی مرورگر) ===== */
-let utterance = null;
-function speakCurrentText(){
-  if (!currentTranslationText) {
-    status.textContent = 'ابتدا ترجمه را بارگذاری کنید (دکمه نمایش ترجمه)';
-    return;
-  }
-  if (!('speechSynthesis' in window)) {
-    status.textContent = 'مرورگر شما از Web Speech API پشتیبانی نمی‌کند.';
-    return;
-  }
-  // اگر در حال صحبت بودیم، ابتدا متوقف کنیم
-  speechSynthesis.cancel();
-
-  utterance = new SpeechSynthesisUtterance(currentTranslationText);
-  // تنظیم زبان به فارسی (در برخی مرورگرها fa-IR پشتیبانی می‌شود)
-  utterance.lang = 'fa-IR';
-  // سرعت/لحن قابل تغییر:
-  utterance.rate = 1.0;
-  utterance.pitch = 1.0;
-
-  utterance.onstart = () => { status.textContent = 'در حال پخش (TTS)...'; };
-  utterance.onend = () => { status.textContent = 'پایان پخش TTS.'; };
-  utterance.onerror = (e) => { console.error(e); status.textContent = 'خطا در پخش TTS.'; };
-
-  // شروع
-  try {
-    speechSynthesis.speak(utterance);
-    showTTSControls(true);
-  } catch (err) {
-    console.error(err);
-    status.textContent = 'پخش TTS با خطا مواجه شد.';
-  }
-}
-
-/* توقف/مکث/ادامه TTS */
-stopTTSBtn.addEventListener('click', () => {
-  if ('speechSynthesis' in window) {
-    speechSynthesis.cancel();
-    status.textContent = 'پخش TTS متوقف شد.';
-  }
-});
-speakBtn.addEventListener('click', () => {
-  speakCurrentText();
-});
-
-/* نمایش یا مخفی کردن کنترل‌های TTS */
-function showTTSControls(show){
-  ttsControls.style.display = show ? 'block' : 'none';
-}
-
-/* وقتی صفحه بارگزاری شد: مقدار اولیه */
-window.addEventListener('load', () => {
-  // مقدار اولیه سوره اول را آماده کن
-  currentSurahNumber = 1;
-  fetchTranslation(1).catch(()=>{});
-  showTTSControls(false);
-  audioPlayer.style.display = 'none';
-  status.textContent = 'آماده. یک سوره انتخاب کنید و روی "نمایش ترجمه" بزنید.';
-});
+showBtn.onclick=()=>{fetchTranslation(select.value)};
+playBtn.onclick=()=>{
+  const n=String(select.value).padStart(3,"0");
+  const link=`https://dl.masoudriaei.com/quran_translation/farsi/${n}.mp3`;
+  audio.src=link;
+  audio.style.display="block";
+  audio.play().then(()=>{status.textContent="در حال پخش صوت..."}).catch(()=>{
+    status.textContent="⚠️ فایل صوتی برای این سوره در دسترس نیست.";
+  });
+};
 </script>
 </body>
 </html>
