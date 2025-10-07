@@ -34,7 +34,7 @@
 
 <button id="salavatBtn">صلوات</button>
 
-<audio id="bgMusic" src="https://v.delgarm.com/mp3/804/2021/10/29/1635536913_E3iL1.mp3" loop muted></audio>
+<audio id="bgMusic" src="https://irsv.upmusics.com/dlw/Horror%20Music%20-%202822222%20(320).mp3" loop></audio>
 <audio id="newMusic" src="https://sedatoseda.com/wp-content/uploads/angelic-choir-6793.mp3" loop></audio>
 
 <script>
@@ -42,16 +42,17 @@ const btn = document.getElementById('salavatBtn');
 const bgMusic = document.getElementById('bgMusic');
 const newMusic = document.getElementById('newMusic');
 
-// راه اندازی AudioContext برای دور زدن محدودیت autoplay
+// تلاش برای پخش خودکار با AudioContext
 window.addEventListener('load', async () => {
     try {
         const context = new (window.AudioContext || window.webkitAudioContext)();
         const source = context.createMediaElementSource(bgMusic);
         source.connect(context.destination);
-        await bgMusic.play(); // شروع آهنگ بی‌صدا
-        bgMusic.muted = false; // فعال کردن صدا بلافاصله بعد از شروع
+        await bgMusic.play().catch(() => {
+            console.log("مرورگر اجازه autoplay نداد. ممکن است نیاز به اولین تعامل کاربر باشد.");
+        });
     } catch(e) {
-        console.log("پخش خودکار موفق نشد:", e);
+        console.log("خطا در پخش خودکار:", e);
     }
 });
 
