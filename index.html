@@ -51,6 +51,11 @@
       margin-top: 20px;
       width: 90%;
     }
+    footer {
+      font-size: 14px;
+      color: #555;
+      margin: 20px;
+    }
   </style>
 </head>
 <body>
@@ -63,6 +68,11 @@
 
   <div id="result" class="translation"></div>
   <audio id="audioPlayer" controls></audio>
+
+  <footer>
+    ترجمه متنی از استاد انصاریان – ترجمه صوتی از مسعود ریاعی  
+    <br>با ذکر صلوات و منبع مجاز به استفاده هستید 🌿
+  </footer>
 
   <script>
     const surahSelect = document.getElementById('surahSelect');
@@ -82,7 +92,7 @@
       "الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
     ];
 
-    // پر کردن منوی انتخاب سوره‌ها
+    // پر کردن منوی سوره‌ها
     surahNames.forEach((name, index) => {
       const opt = document.createElement('option');
       opt.value = index + 1;
@@ -101,10 +111,13 @@
         data.data.ayahs.forEach(a => text += `<p><b>${a.numberInSurah}.</b> ${a.text}</p>`);
         result.innerHTML = `<h3>${data.data.englishName}</h3>${text}`;
 
-        // ترجمه صوتی (در صورت وجود)
-        const audioUrl = `https://quranaudio.pages.dev/translation/fa/${surah}.mp3`;
+        // ساخت لینک ترجمه صوتی از سایت مسعود ریاعی
+        const surahNumber = surah.toString().padStart(2, '0');
+        const audioUrl = `https://dl.masoudriaei.com/quran-translation-fa/${surahNumber}.mp3`;
+
         audioPlayer.src = audioUrl;
         audioPlayer.load();
+        audioPlayer.play();
       } catch (e) {
         result.innerHTML = "❌ خطا در دریافت ترجمه.";
         console.error(e);
