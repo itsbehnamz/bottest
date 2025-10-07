@@ -1,36 +1,40 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ترجمه فارسی قرآن کریم</title>
-  <style>
-    body{font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;margin:0;padding:20px;text-align:center}
-    header{background:#0b7a54;color:#fff;padding:14px;border-radius:10px;margin-bottom:16px}
-    select,button{font-size:16px;padding:10px;margin:5px;border-radius:8px;border:1px solid #ccc}
-    button{background:#0b7a54;color:#fff;cursor:pointer}
-    .card{background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:0 auto}
-    #translation{white-space:pre-wrap;text-align:justify;line-height:1.9;margin-top:15px}
-    audio{width:100%;margin-top:10px}
-    #status{color:#555;margin-top:10px}
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>قرآن با ترجمه فارسی</title>
+<style>
+body{font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
+header{background:#0b7a54;color:#fff;padding:15px;border-radius:10px;margin-bottom:16px;}
+select,button{padding:10px;margin:5px;font-size:16px;border-radius:8px;border:1px solid #ccc;}
+button{background:#0b7a54;color:#fff;cursor:pointer;}
+.card{background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:0 auto;}
+#translation{white-space:pre-wrap;text-align:justify;line-height:1.9;margin-top:15px;}
+audio{width:100%;margin-top:10px;}
+img{max-width:200px;margin:15px auto;display:block;}
+</style>
 </head>
 <body>
-  <header><h1>📖 ترجمه فارسی قرآن کریم</h1></header>
 
-  <div class="card">
-    <label for="surahSelect">انتخاب سوره:</label>
-    <select id="surahSelect"></select>
-    <button id="showBtn">نمایش ترجمه</button>
-    <button id="playAudioBtn">پخش صوت</button>
+<header><h1>📖 قرآن با ترجمه فارسی</h1></header>
 
-    <div id="status">آماده</div>
-    <h3 id="surahTitle"></h3>
-    <div id="translation">برای شروع یک سوره انتخاب کنید.</div>
-    <audio id="audioPlayer" controls style="display:none"></audio>
-  </div>
+<img src="https://tse3.mm.bing.net/th/id/OIP.6a0D4hRdahrLnDkLkQz4OQHaHZ?cb=12&pid=Api" alt="تصویر قرآن">
+
+<div class="card">
+<label for="surahSelect">انتخاب سوره:</label>
+<select id="surahSelect"></select>
+<button id="showBtn">نمایش ترجمه</button>
+<button id="playAudioBtn">پخش صوت</button>
+
+<div id="status">آماده</div>
+<h3 id="surahTitle"></h3>
+<div id="translation">برای شروع یک سوره انتخاب کنید.</div>
+<audio id="audioPlayer" controls style="display:none"></audio>
+</div>
 
 <script>
+// لیست 114 سوره
 const surahNames=[
 "الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
 "هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج",
@@ -43,6 +47,7 @@ const surahNames=[
 "الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه",
 "الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
 ];
+
 const select=document.getElementById("surahSelect");
 const showBtn=document.getElementById("showBtn");
 const playBtn=document.getElementById("playAudioBtn");
@@ -50,12 +55,16 @@ const title=document.getElementById("surahTitle");
 const translation=document.getElementById("translation");
 const status=document.getElementById("status");
 const audio=document.getElementById("audioPlayer");
+
+// پر کردن منوی سوره‌ها
 surahNames.forEach((n,i)=>{
   const opt=document.createElement("option");
   opt.value=i+1;
   opt.textContent=`${i+1}. ${n}`;
   select.appendChild(opt);
 });
+
+// دریافت ترجمه از سایت تسلیت (API ندارد، پس فقط نمونه متنی نمایش می‌دهیم)
 async function fetchTranslation(num){
   status.textContent="در حال دریافت ترجمه...";
   try{
@@ -63,23 +72,26 @@ async function fetchTranslation(num){
     const j=await r.json();
     const ayahs=j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
     translation.innerHTML=ayahs.join("<br><br>");
-    title.textContent=`${num}. ${j.data.name}`;
+    title.textContent=`${num}. ${surahNames[num-1]}`;
     status.textContent="ترجمه آماده است.";
   }catch(e){
     translation.textContent="خطا در بارگذاری ترجمه.";
     status.textContent="❌ خطا در دریافت ترجمه.";
   }
 }
+
 showBtn.onclick=()=>{fetchTranslation(select.value)};
+
+// پلی لیست صوتی (لینک‌های سایت تسلیت)
 playBtn.onclick=()=>{
   const n=String(select.value).padStart(3,"0");
-  const link=`https://dl.masoudriaei.com/quran_translation/farsi/${n}.mp3`;
+  const link=`https://tasleat.ir/audio/${n}.mp3`;
   audio.src=link;
   audio.style.display="block";
-  audio.play().then(()=>{status.textContent="در حال پخش صوت..."}).catch(()=>{
-    status.textContent="⚠️ فایل صوتی برای این سوره در دسترس نیست.";
-  });
+  audio.play().then(()=>{status.textContent="در حال پخش صوت..."})
+  .catch(()=>{status.textContent="⚠️ فایل صوتی برای این سوره در دسترس نیست."});
 };
 </script>
+
 </body>
 </html>
