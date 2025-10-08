@@ -5,54 +5,29 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> قرآن با ترجمه گویای فارسی</title>
 <style>
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  overflow: hidden;
-  font-family:"Vazirmatn","Tahoma",sans-serif;
-  background: #000;
-}
-
-/* پس‌زمینه GIF تمام صفحه */
-body {
-  background-image: url('https://gifgif.ir/giffiles/%D8%B9%DA%A9%D8%B3%20%D9%85%D8%AA%D8%AD%D8%B1%DA%A9%20%D8%B7%D8%A8%DB%8C%D8%B9%D8%AA%20%D8%B2%DB%8C%D8%A8%D8%A7.gif');
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-}
-
-/* لایه نیمه شفاف برای خوانایی متن */
-body::before {
-  content: "";
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.3);
-  z-index: 0;
-}
-
-header{background:#0b7a54;color:#fff;padding:15px;border-radius:10px;margin-bottom:16px;position:relative; z-index:1;}
+body{font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
+header{background:#0b7a54;color:#fff;padding:15px;border-radius:10px;margin-bottom:16px;}
 select,button{padding:10px;margin:5px;font-size:16px;border-radius:8px;border:1px solid #ccc;}
 button{background:#0b7a54;color:#fff;cursor:pointer;}
-.card{background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:20px auto;position:relative; z-index:1;}
-#translation{white-space:pre-wrap;text-align:justify;line-height:1.9;margin-top:15px;position:relative; z-index:1;}
-audio{width:100%;margin-top:10px;position:relative; z-index:1;}
-img{max-width:200px;margin:15px auto;display:block;position:relative; z-index:1;}
-.content-wrapper{position:relative; z-index:1;}
+.card{background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:0 auto;}
+#translation{white-space:pre-wrap;text-align:justify;line-height:1.9;margin-top:15px;}
+audio{width:100%;margin-top:10px;}
+img{max-width:200px;margin:15px auto;display:block;}
 </style>
 </head>
 <body>
-<div class="content-wrapper">
+
 <header><h1>📖 قرآن بهنام با ترجمه گویای فارسی </h1></header>
 
-<div class="card">
+
+
+<div class="card" style="margin-top:20px;">
   <a href="https://instagram.com/itszolfi" target="_blank">
     <button>صفحه اینستاگرام سازنده ربات</button>
   </a>
 </div>
+
+
 
 <img src="https://s22.picofile.com/file/8449370268/Qoran_9.gif" alt="تصویر قرآن">
 
@@ -67,11 +42,35 @@ img{max-width:200px;margin:15px auto;display:block;position:relative; z-index:1;
 <div id="translation">برای شروع یک سوره انتخاب کنید.</div>
 <audio id="audioPlayer" controls style="display:none"></audio>
 </div>
-</div>
 
 <script>
-const surahNames=["الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس","هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب","سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف","محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله","الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه","المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر","الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل","الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه","الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"];
-const surahEnNames=["Fatiha","Baqarah","AalImran","Nisa","Maidah","Anam","Araf","Anfal","Tawbah","Yunus","Hud","Yusuf","Rad","Ibrahim","Hijr","Nahl","Isra","Kahf","Maryam","Taha","Anbiya","Hajj","Muminun","Nur","Furqan","Shuara","Naml","Qasas","Ankabut","Rum","Luqman","Sajdah","Ahzab","Saba","Fatir","YaaSin","Saffat","Saad","Zumar","Ghafir","Fussilat","Shura","Zukhruf","Dukhan","Jathiyah","Ahqaf","Muhammad","Fath","Hujurat","Qaf","Dhariyat","Tur","Najm","Qamar","Rahman","Waqiah","Hadid","Mujadilah","Hashr","Mumtahinah","Saff","Jumuah","Munafiqun","Taghabun","Talaq","Tahrim","Mulk","Qalam","Haqqah","Maarij","Nuh","Jinn","Muzammil","Mudathir","Qiyamah","Insan","Mursalat","Naba","Naziat","Abasa","Takwir","Infitar","Mutaffifin","Inshiqaq","Buruj","Tariq","Alaa","Ghashiyah","Fajr","Balad","Shams","Layl","Dhuha","Sharh","Tin","Alaq","Qadr","Baiyinah","Zalzalah","Adiyat","Qariah","Takathur","Asr","Humazah","Fil","Quraysh","Maaun","Kauthar","Kafirun","Nasr","Masad","Ikhlas","Falaq","Nas"];
+// لیست 114 سوره فارسی
+const surahNames=[
+"الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
+"هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج",
+"المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب",
+"سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف",
+"محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله",
+"الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه",
+"المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر",
+"الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل",
+"الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه",
+"الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
+];
+
+// نام انگلیسی سوره‌ها مطابق سایت قرآن مهر
+const surahEnNames=[
+"Fatiha","Baqarah","AalImran","Nisa","Maidah","Anam","Araf","Anfal","Tawbah","Yunus",
+"Hud","Yusuf","Rad","Ibrahim","Hijr","Nahl","Isra","Kahf","Maryam","Taha","Anbiya","Hajj",
+"Muminun","Nur","Furqan","Shuara","Naml","Qasas","Ankabut","Rum","Luqman","Sajdah","Ahzab",
+"Saba","Fatir","YaaSin","Saffat","Saad","Zumar","Ghafir","Fussilat","Shura","Zukhruf","Dukhan","Jathiyah","Ahqaf",
+"Muhammad","Fath","Hujurat","Qaf","Dhariyat","Tur","Najm","Qamar","Rahman","Waqiah","Hadid","Mujadilah",
+"Hashr","Mumtahinah","Saff","Jumuah","Munafiqun","Taghabun","Talaq","Tahrim","Mulk","Qalam","Haqqah",
+"Maarij","Nuh","Jinn","Muzammil","Mudathir","Qiyamah","Insan","Mursalat","Naba","Naziat","Abasa","Takwir",
+"Infitar","Mutaffifin","Inshiqaq","Buruj","Tariq","Alaa","Ghashiyah","Fajr","Balad","Shams","Layl",
+"Dhuha","Sharh","Tin","Alaq","Qadr","Baiyinah","Zalzalah","Adiyat","Qariah","Takathur","Asr","Humazah",
+"Fil","Quraysh","Maaun","Kauthar","Kafirun","Nasr","Masad","Ikhlas","Falaq","Nas"
+];
 
 const select=document.getElementById("surahSelect");
 const showBtn=document.getElementById("showBtn");
@@ -81,6 +80,7 @@ const translation=document.getElementById("translation");
 const status=document.getElementById("status");
 const audio=document.getElementById("audioPlayer");
 
+// پر کردن منوی سوره‌ها
 surahNames.forEach((n,i)=>{
   const opt=document.createElement("option");
   opt.value=i+1;
@@ -88,6 +88,7 @@ surahNames.forEach((n,i)=>{
   select.appendChild(opt);
 });
 
+// دریافت ترجمه
 async function fetchTranslation(num){
   status.textContent="در حال دریافت ترجمه...";
   try{
@@ -104,6 +105,8 @@ async function fetchTranslation(num){
 }
 
 showBtn.onclick=()=>{fetchTranslation(select.value)};
+
+// پخش صوت از سایت قرآن مهر
 playBtn.onclick=()=>{
   const n=select.value;
   const link=`https://quranmehr.ir/files/audio/${n}-${surahEnNames[n-1]}.mp3`;
@@ -113,5 +116,10 @@ playBtn.onclick=()=>{
   .catch(()=>{status.textContent="⚠️ فایل صوتی برای این سوره در دسترس نیست."});
 };
 </script>
+
 </body>
 </html>
+
+
+
+
