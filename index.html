@@ -1,6 +1,79 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
+
+
+
+
+
+
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>پس‌زمینه متحرک با متن واضح</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    overflow: hidden;
+    font-family: "Vazir", sans-serif;
+    background: #000;
+  }
+
+  /* پس‌زمینه متحرک */
+  body {
+    background-image: url('https://gifgif.ir/giffiles/%D8%B9%DA%A9%D8%B3%20%D9%85%D8%AA%D8%AD%D8%B1%DA%A9%20%D8%B7%D8%A8%DB%8C%D8%B9%D8%AA%20%D8%B2%DB%8C%D8%A8%D8%A7.gif');
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
+
+  /* لایه نیمه شفاف برای خوانایی متن */
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.3); /* میزان تاریکی را می‌توان تغییر داد */
+    z-index: 0;
+  }
+
+  /* محتوای سایت */
+  .content {
+    position: relative;
+    z-index: 1; /* بالاتر از لایه نیمه شفاف */
+    text-align: center;
+    top: 40%;
+    transform: translateY(-40%);
+    color: #fff;
+  }
+
+  .content h1 {
+    font-size: 3rem;
+    text-shadow: 0 0 10px rgba(0,0,0,0.7);
+    margin-bottom: 20px;
+  }
+
+  .content p {
+    font-size: 1.2rem;
+    text-shadow: 0 0 8px rgba(0,0,0,0.7);
+  }
+</style>
+</head>
+<body>
+
+<div class="content">
+  <h1>به وب‌سایت من خوش آمدید</h1>
+  <p>متن روی پس‌زمینه متحرک به‌صورت واضح قابل مشاهده است 🌿</p>
+</div>
+
+
+
+
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title> قرآن با ترجمه گویای فارسی</title>
@@ -116,83 +189,6 @@ playBtn.onclick=()=>{
   .catch(()=>{status.textContent="⚠️ فایل صوتی برای این سوره در دسترس نیست."});
 };
 </script>
-
-
-
-
-
-
-<!DOCTYPE html>
-<html lang="fa">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>پس‌زمینه متحرک با متن واضح</title>
-<style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    height: 100%;
-    overflow: hidden;
-    font-family: "Vazir", sans-serif;
-    background: #000;
-  }
-
-  /* پس‌زمینه متحرک */
-  body {
-    background-image: url('https://gifgif.ir/giffiles/%D8%B9%DA%A9%D8%B3%20%D9%85%D8%AA%D8%AD%D8%B1%DA%A9%20%D8%B7%D8%A8%DB%8C%D8%B9%D8%AA%20%D8%B2%DB%8C%D8%A8%D8%A7.gif');
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
-  /* لایه نیمه شفاف برای خوانایی متن */
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0,0,0,0.3); /* میزان تاریکی را می‌توان تغییر داد */
-    z-index: 0;
-  }
-
-  /* محتوای سایت */
-  .content {
-    position: relative;
-    z-index: 1; /* بالاتر از لایه نیمه شفاف */
-    text-align: center;
-    top: 40%;
-    transform: translateY(-40%);
-    color: #fff;
-  }
-
-  .content h1 {
-    font-size: 3rem;
-    text-shadow: 0 0 10px rgba(0,0,0,0.7);
-    margin-bottom: 20px;
-  }
-
-  .content p {
-    font-size: 1.2rem;
-    text-shadow: 0 0 8px rgba(0,0,0,0.7);
-  }
-</style>
-</head>
-<body>
-
-<div class="content">
-  <h1>به وب‌سایت من خوش آمدید</h1>
-  <p>متن روی پس‌زمینه متحرک به‌صورت واضح قابل مشاهده است 🌿</p>
-</div>
-
-</body>
-</html>
-
-
-
-
 
 </body>
 </html>
