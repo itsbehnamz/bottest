@@ -2,108 +2,82 @@
 
 
 
+
 <!DOCTYPE html>
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>تیتر تاریخ و ساعت</title>
+<title>تاریخ و خبر متحرک</title>
 <style>
   body {
-    margin: 0;
-    font-family: 'Tahoma', sans-serif;
+    font-family: Tahoma, sans-serif;
     background: #f0f0f0;
+    padding: 20px;
   }
-
-  .ticker {
+  #datetime {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+  #news-ticker {
     width: 100%;
     overflow: hidden;
     white-space: nowrap;
     box-sizing: border-box;
-    background: #222;
-    color: #fff;
-    padding: 10px 0;
-    position: fixed;
-    top: 0;
-    left: 0;
+    border: 2px solid #333;
+    background: #fff;
+    padding: 5px;
   }
-
-  .ticker span {
+  #news-ticker span {
     display: inline-block;
     padding-left: 100%;
-    animation: scroll 20s linear infinite;
+    animation: scroll 15s linear infinite;
   }
-
   @keyframes scroll {
     0% { transform: translateX(0%); }
     100% { transform: translateX(-100%); }
   }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/moment-jalaali@0.9.2/build/moment-jalaali.js"></script>
 </head>
 <body>
 
-<div class="ticker">
-  <span id="shamsiTime">در حال بارگذاری...</span>
-</div>
+<div id="datetime"></div>
+<div id="news-ticker"><span id="latest-news">در حال بارگذاری خبر...</span></div>
 
 <script>
-  // توابع تبدیل تاریخ میلادی به شمسی
-  function toShamsi(date) {
-    const g_y = date.getFullYear();
-    const g_m = date.getMonth() + 1;
-    const g_d = date.getDate();
+// بروزرسانی ساعت و تاریخ
+function updateDateTime() {
+    const now = moment();
+    const shamsi = now.format('jYYYY/jMM/jDD HH:mm:ss');
+    document.getElementById('datetime').textContent = shamsi;
+}
+setInterval(updateDateTime, 1000);
+updateDateTime();
 
-    const g_days_in_month = [31,28,31,30,31,30,31,31,30,31,30,31];
-    const j_days_in_month = [31,31,31,31,31,31,30,30,30,30,30,29];
-
-    let gy = g_y-1600;
-    let gm = g_m-1;
-    let gd = g_d-1;
-
-    let g_day_no = 365*gy + Math.floor((gy+3)/4) - Math.floor((gy+99)/100) + Math.floor((gy+399)/400);
-    for (let i=0;i<gm;i++)
-      g_day_no += g_days_in_month[i];
-    if (gm>1 && ((gy%4==0 && gy%100!=0) || (gy%400==0)))
-      g_day_no++;
-    g_day_no += gd;
-
-    let j_day_no = g_day_no-79;
-
-    let j_np = Math.floor(j_day_no/12053);
-    j_day_no = j_day_no % 12053;
-
-    let jy = 979 + 33*j_np + 4*Math.floor(j_day_no/1461);
-    j_day_no %= 1461;
-
-    if (j_day_no >= 366) {
-      jy += Math.floor((j_day_no-366)/365);
-      j_day_no = (j_day_no-366)%365;
+// دریافت آخرین خبر از سایت شهر خبر
+async function fetchLatestNews() {
+    try {
+        // جایگزین کنید با API واقعی یا URL RSS سایت شهر خبر
+        const response = await fetch('https://shahrkhabar.ir/api/latest-news'); 
+        const data = await response.json();
+        const latestTitle = data[0].title || "خبر جدید یافت نشد";
+        document.getElementById('latest-news').textContent = latestTitle;
+    } catch (error) {
+        document.getElementById('latest-news').textContent = "خطا در بارگذاری خبر";
+        console.error(error);
     }
+}
 
-    let jm, jd;
-    for (jm=0;jm<11;jm++) {
-      if (j_day_no < j_days_in_month[jm]) break;
-      j_day_no -= j_days_in_month[jm];
-    }
-    jd = j_day_no + 1;
-    return {jy, jm: jm+1, jd};
-  }
-
-  function updateTime() {
-    const now = new Date();
-    const shamsi = toShamsi(now);
-    const hours = now.getHours().toString().padStart(2,'0');
-    const minutes = now.getMinutes().toString().padStart(2,'0');
-    const seconds = now.getSeconds().toString().padStart(2,'0');
-    const text = `تاریخ امروز: ${shamsi.jy}/${shamsi.jm}/${shamsi.jd} | ساعت: ${hours}:${minutes}:${seconds}`;
-    document.getElementById('shamsiTime').textContent = text;
-  }
-
-  setInterval(updateTime, 1000);
-  updateTime();
+// بروزرسانی هر 60 ثانیه
+fetchLatestNews();
+setInterval(fetchLatestNews, 60000);
 </script>
 
 </body>
 </html>
+
+
 
 
 
