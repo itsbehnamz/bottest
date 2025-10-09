@@ -46,61 +46,6 @@ img{max-width:200px;margin:15px auto;display:block;}
 </div>
 
 <script>
-
-
-
-<html lang="fa">
-<head>
-<meta charset="UTF-8">
-<title>متن متحرک</title>
-<style>
-  body {
-    direction: rtl;
-    font-family: Tahoma, sans-serif;
-    background: #fff;
-    text-align: center;
-    padding-top: 60px;
-  }
-
-  .marquee {
-    width: 60%;
-    margin: 0 auto;
-    overflow: hidden;
-    white-space: nowrap;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    background: #f9f9f9;
-    display: inline-block;
-    line-height: 1;          /* ارتفاع دقیق اندازه‌ی متن */
-    padding: 4px 8px;        /* خیلی کم، فقط برای زیبایی */
-  }
-
-  .marquee span {
-    display: inline-block;
-    font-size: 17px;
-    font-weight: bold;
-    color: #222;
-    animation: moveRight 20s linear infinite;
-  }
-
-  @keyframes moveRight {
-    0%   { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
-  }
-</style>
-</head>
-<body>
-
-<div class="marquee">
-  <span>با اشتراک گذاری ربات قرآن فارسی بهنام ، در ثواب آن سهیم باشید 💐 BehQuranbot@</span>
-</div>
-
-</body>
-</html>
-
-
-
-
 // لیست 114 سوره فارسی
 const surahNames=[
 "الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
@@ -172,6 +117,64 @@ playBtn.onclick=()=>{
   audio.play().then(()=>{status.textContent="در حال پخش صوت..."})
   .catch(()=>{status.textContent="⚠️  در حال حاضر پخش صوتی این سوره با خطا مواجه شده... لطفا اتصال اینترنت خود را چک کرده و مجددا تلاش کنید ..."});
 };
+
+
+
+
+
+
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>متن متحرک</title>
+<style>
+  body {
+    direction: rtl;
+    font-family: Tahoma, sans-serif;
+    background: #fff;
+    text-align: center;
+    padding-top: 60px;
+  }
+
+  .marquee {
+    width: 60%;
+    margin: 0 auto;
+    overflow: hidden;
+    white-space: nowrap;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background: #f9f9f9;
+    display: inline-block;
+    line-height: 1;          /* ارتفاع دقیق اندازه‌ی متن */
+    padding: 4px 8px;        /* خیلی کم، فقط برای زیبایی */
+  }
+
+  .marquee span {
+    display: inline-block;
+    font-size: 17px;
+    font-weight: bold;
+    color: #222;
+    animation: moveRight 20s linear infinite;
+  }
+
+  @keyframes moveRight {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
+</style>
+</head>
+<body>
+
+<div class="marquee">
+  <span>با اشتراک گذاری ربات قرآن فارسی بهنام ، در ثواب آن سهیم باشید 💐 BehQuranbot@</span>
+</div>
+
+</body>
+</html>
+
+
+
+
 </script>
 
 </body>
