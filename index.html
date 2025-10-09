@@ -22,6 +22,33 @@ img{max-width:200px;margin:15px auto;display:block;}
 
 
 
+
+
+
+
+<div class="card" style="margin-top:20px;">
+  <a href="https://instagram.com/itszolfi" target="_blank">
+    <button>صفحه اینستاگرام سازنده ربات</button>
+  </a>
+</div>
+<img src="https://s22.picofile.com/file/8449370268/Qoran_9.gif" alt="تصویر قرآن">
+
+<div class="card">
+<label for="surahSelect">انتخاب سوره:</label>
+<select id="surahSelect"></select>
+<button id="showBtn">نمایش ترجمه</button>
+<button id="playAudioBtn">پخش صوت</button>
+
+<div id="status">آماده</div>
+<h3 id="surahTitle"></h3>
+<div id="translation">برای شروع یک سوره انتخاب کنید.</div>
+<audio id="audioPlayer" controls style="display:none"></audio>
+</div>
+
+<script>
+
+
+
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
@@ -74,29 +101,6 @@ img{max-width:200px;margin:15px auto;display:block;}
 
 
 
-<div class="card" style="margin-top:20px;">
-  <a href="https://instagram.com/itszolfi" target="_blank">
-    <button>صفحه اینستاگرام سازنده ربات</button>
-  </a>
-</div>
-
-
-
-<img src="https://s22.picofile.com/file/8449370268/Qoran_9.gif" alt="تصویر قرآن">
-
-<div class="card">
-<label for="surahSelect">انتخاب سوره:</label>
-<select id="surahSelect"></select>
-<button id="showBtn">نمایش ترجمه</button>
-<button id="playAudioBtn">پخش صوت</button>
-
-<div id="status">آماده</div>
-<h3 id="surahTitle"></h3>
-<div id="translation">برای شروع یک سوره انتخاب کنید.</div>
-<audio id="audioPlayer" controls style="display:none"></audio>
-</div>
-
-<script>
 // لیست 114 سوره فارسی
 const surahNames=[
 "الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
