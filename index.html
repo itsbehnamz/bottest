@@ -3,98 +3,53 @@
 
 
 
-
 <!DOCTYPE html>
 <html lang="fa">
 <head>
 <meta charset="UTF-8">
-<title>جملات مذهبی متحرک</title>
+<title>متن متحرک</title>
 <style>
   body {
     direction: rtl;
-    font-family: "Tahoma", sans-serif;
-    background: #f5f5f5;
-    text-align: center;
-    padding-top: 80px;
-  }
-
-  #news-box {
-    display: inline-block;
+    font-family: Tahoma, sans-serif;
     background: #fff;
-    border: 2px solid #444;
-    border-radius: 10px;
-    padding: 10px 25px;
-    font-size: 20px;
-    color: #111;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-    overflow: hidden;
-    white-space: nowrap;
+    padding: 50px;
+    text-align: center;
   }
 
-  #text {
+  .marquee {
     display: inline-block;
-    animation: move 15s linear infinite;
+    white-space: nowrap;
+    overflow: hidden;
+    font-size: 20px;
+    font-weight: bold;
+    color: #222;
+    border: 2px solid #ccc;
+    border-radius: 10px;
+    padding: 8px 20px;
+    background: #f9f9f9;
   }
 
-  @keyframes move {
-    0%   { transform: translateX(100%); }
-    100% { transform: translateX(-100%); }
+  .marquee span {
+    display: inline-block;
+    animation: moveRight 12s linear infinite;
+  }
+
+  @keyframes moveRight {
+    0%   { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
   }
 </style>
 </head>
 <body>
 
-<div id="news-box">
-  <span id="text">در حال بارگذاری جملات...</span>
+<div class="marquee">
+  <span>با اشتراک گذاری ربات قرآن فارسی بهنام ، در ثواب آن سهیم باشید 💐 BehnamQuranbot@</span>
 </div>
-
-<script>
-const quotes = [
-  "اللهم عجل لولیک الفرج 🌸",
-  "یاد خدا آرامش دل‌هاست ❤️",
-  "صل علی محمد و آل محمد 💫",
-  "خدایا شکرت برای هر نفس 🌿",
-  "به خدا توکل کن، آرام می‌شی 🌙",
-  "نمازت را اول وقت بخوان ✨",
-  "یا علی مدد 💪",
-  "هر که با خدا باشد، تنها نیست 💖",
-  "خدا همیشه با صابران است 🌾",
-  "در سختی‌ها بگو: یا الله 🌹",
-  "خداوند بهترین سرنوشت را می‌نویسد 📖",
-  "هر سلام بر محمد، نوری در بهشت می‌افزاید ☀️",
-  "اللهم اجعل عواقب امورنا خیرا 🤲",
-  "هر که نیتش خدا باشد، راهش باز می‌شود 🌺",
-  "بنده‌ی خدایم، پس نگران نیستم 💎",
-  "دل اگر با خدا باشد، آرام است 🌻",
-  "به نام خدا آغاز کنیم 💫",
-  "یاد مرگ، دل را بیدار می‌کند 🕊️",
-  "السلام علیک یا اباعبدالله الحسین ❤️",
-  "خدایا ما را از یارانت قرار ده 🌙",
-  "قرآن بخوان تا دلت روشن شود 📖",
-  "ذکر امروزت: الحمدلله رب العالمین 🌸",
-  "دعایت را با لبخند بگو 😊",
-  "آرامش یعنی تکیه بر خدا 🌿"
-];
-
-let current = 0;
-const textEl = document.getElementById("text");
-
-function showNextQuote() {
-  current = Math.floor(Math.random() * quotes.length);
-  textEl.textContent = quotes[current];
-  
-  // ریست انیمیشن برای حرکت دوباره
-  textEl.style.animation = "none";
-  void textEl.offsetWidth; // بازسازی انیمیشن
-  textEl.style.animation = "move 15s linear infinite";
-}
-
-showNextQuote();
-setInterval(showNextQuote, 16000); // هر 16 ثانیه جمله بعدی
-</script>
 
 </body>
 </html>
+
 
 
 
