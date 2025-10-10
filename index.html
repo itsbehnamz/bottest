@@ -1,120 +1,130 @@
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قرآن با ترجمه و رولت شانسی – نسخه 3</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>رولت شانسی - نسخه 6</title>
 <style>
-body {font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
-.card {background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:15px auto;}
-button {padding:10px 15px;margin:5px;font-size:16px;border-radius:8px;border:1px solid #ccc;cursor:pointer;background:#0b7a54;color:#fff;}
-#rouletteContainer {width:100%;height:60px;margin:15px auto;border:2px solid #0b7a54;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;}
-.rouletteItem {padding:0 10px;margin:0 5px;transition: all 0.2s linear;font-weight:bold;}
-@keyframes blink {0%{color: gold;}50%{color: transparent;}100%{color: gold;}}
-.instagram-link {text-decoration:none;color:#0b7a54;font-weight:bold;display:flex;align-items:center;justify-content:center;}
-.instagram-link img {width:20px;height:20px;margin-left:5px;}
+  body{font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:18px}
+  .card{background:#fff;border-radius:12px;padding:14px;box-shadow:0 6px 18px rgba(0,0,0,0.08);max-width:920px;margin:14px auto}
+  button{padding:10px 16px;margin:6px;font-size:16px;border-radius:8px;border:0;cursor:pointer;background:#0b7a54;color:#fff}
+  select{padding:10px;font-weight:bold;font-size:18px}
+  #rouletteContainer{width:100%;height:70px;margin:12px auto;border-radius:10px;border:2px solid #0b7a54;display:flex;align-items:center;justify-content:center;overflow:hidden;font-weight:bold;font-size:22px}
+  @keyframes blink{0%{color:gold}50%{color:transparent}100%{color:gold}}
+  .instagram{display:flex;align-items:center;gap:8px;justify-content:center;text-decoration:none;color:#0b7a54;font-weight:bold}
+  .instagram img{width:20px;height:20px}
 </style>
 </head>
 <body>
 
-<img src="https://www.tasvirezendegi.com/wp-content/uploads/2014/07/s308.gif" alt="تصویر قرآن" style="max-width:250px;display:block;margin:0 auto 15px;">
+<img src="https://www.tasvirezendegi.com/wp-content/uploads/2014/07/s308.gif" alt="" style="max-width:260px;display:block;margin:10px auto">
 
 <div class="card">
-<label for="surahSelect"><b>انتخاب دستی سوره:</b></label>
-<select id="surahSelect" style="font-weight:bold;font-size:18px;"></select>
+  <label><b>انتخاب دستی سوره:</b></label><br>
+  <select id="surahSelect"></select>
 </div>
 
 <div class="card">
-<button id="spinBtn">انتخاب شانسی سوره</button>
-<div id="rouletteContainer"><span id="rouletteText">الفاتحه</span></div>
+  <button id="spinBtn">چرخاندن (انتخاب شانسی)</button>
+  <div id="rouletteContainer"><span id="rouletteText">الفاتحه</span></div>
+</div>
+
+<div class="card" style="display:flex;justify-content:center;gap:8px">
+  <button id="showBtn">نمایش ترجمه</button>
+  <button id="playBtn">پخش صوت</button>
 </div>
 
 <div class="card">
-<button id="showBtn">نمایش ترجمه</button>
-<button id="playAudioBtn">پخش صوت</button>
+  <h3 id="surahTitle"></h3>
+  <div id="translation" style="font-weight:bold;text-align:justify;line-height:1.9"></div>
+  <audio id="audioPlayer" controls style="display:none"></audio>
 </div>
 
 <div class="card">
-<h3 id="surahTitle"></h3>
-<div id="translation" style="font-weight:bold;"></div>
-<audio id="audioPlayer" controls style="display:none"></audio>
-</div>
-
-<div class="card">
-<a href="https://instagram.com/itszolfi" target="_blank" class="instagram-link">
-<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/512px-Instagram_logo_2022.svg.png" alt="Instagram"> صفحه اینستاگرام سازنده ربات
-</a>
+  <a class="instagram" href="https://instagram.com/itszolfi" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/512px-Instagram_logo_2022.svg.png" alt="ig">
+    صفحه اینستاگرام سازنده ربات
+  </a>
 </div>
 
 <script>
-const surahNames=[ /* همان آرایه قبلی */ ];
-const surahEnNames=[ /* همان آرایه قبلی */ ];
-const select=document.getElementById("surahSelect");
-const showBtn=document.getElementById("showBtn");
-const playBtn=document.getElementById("playAudioBtn");
-const title=document.getElementById("surahTitle");
-const translation=document.getElementById("translation");
-const audio=document.getElementById("audioPlayer");
-const rouletteText=document.getElementById("rouletteText");
-const spinBtn=document.getElementById("spinBtn");
+const surahNames = ["الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس","هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب","سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف","محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله","الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه","المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر","الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل","الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه","الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"];
+const surahEnNames = ["Fatiha","Baqarah","AalImran","Nisa","Maidah","Anam","Araf","Anfal","Tawbah","Yunus","Hud","Yusuf","Rad","Ibrahim","Hijr","Nahl","Isra","Kahf","Maryam","Taha","Anbiya","Hajj","Muminun","Nur","Furqan","Shuara","Naml","Qasas","Ankabut","Rum","Luqman","Sajdah","Ahzab","Saba","Fatir","YaaSin","Saffat","Saad","Zumar","Ghafir","Fussilat","Shura","Zukhruf","Dukhan","Jathiyah","Ahqaf","Muhammad","Fath","Hujurat","Qaf","Dhariyat","Tur","Najm","Qamar","Rahman","Waqiah","Hadid","Mujadilah","Hashr","Mumtahinah","Saff","Jumuah","Munafiqun","Taghabun","Talaq","Tahrim","Mulk","Qalam","Haqqah","Maarij","Nuh","Jinn","Muzammil","Mudathir","Qiyamah","Insan","Mursalat","Naba","Naziat","Abasa","Takwir","Infitar","Mutaffifin","Inshiqaq","Buruj","Tariq","Alaa","Ghashiyah","Fajr","Balad","Shams","Layl","Dhuha","Sharh","Tin","Alaq","Qadr","Baiyinah","Zalzalah","Adiyat","Qariah","Takathur","Asr","Humazah","Fil","Quraysh","Maaun","Kauthar","Kafirun","Nasr","Masad","Ikhlas","Falaq","Nas"];
+
+const sel = document.getElementById('surahSelect');
+const rouletteText = document.getElementById('rouletteText');
+const spinBtn = document.getElementById('spinBtn');
+const showBtn = document.getElementById('showBtn');
+const playBtn = document.getElementById('playBtn');
+const audio = document.getElementById('audioPlayer');
+const translation = document.getElementById('translation');
+const titleEl = document.getElementById('surahTitle');
 
 surahNames.forEach((n,i)=>{
-  const opt=document.createElement("option");
-  opt.value=i+1;
-  opt.textContent=`${i+1}. ${n}`;
-  opt.style.fontWeight="bold";
-  select.appendChild(opt);
+  const o = document.createElement('option');
+  o.value = i+1;
+  o.textContent = `${i+1}. ${n}`;
+  o.style.fontWeight='bold';
+  sel.appendChild(o);
 });
+sel.value = 1;
+rouletteText.textContent = surahNames[0];
 
 async function fetchTranslation(num){
-    translation.textContent="در حال دریافت ترجمه...";
-    try{
-        const r=await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
-        const j=await r.json();
-        const ayahs=j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
-        translation.innerHTML=ayahs.join("<br><br>");
-        title.textContent=`${num}. ${surahNames[num-1]}`;
-    }catch(e){
-        translation.textContent="خطا در بارگذاری ترجمه.";
-    }
+  translation.textContent = 'در حال دریافت ترجمه...';
+  try{
+    const r = await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
+    const j = await r.json();
+    const ay = j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
+    translation.innerHTML = ay.join('<br><br>');
+    titleEl.textContent = `${num}. ${surahNames[num-1]}`;
+  }catch(e){
+    translation.textContent = 'خطا در بارگذاری ترجمه.';
+  }
 }
 function playAudio(num){
-    const link=`https://quranmehr.ir/files/audio/${num}-${surahEnNames[num-1]}.mp3`;
-    audio.src=link;
-    audio.style.display="block";
-    audio.play();
+  const link = `https://quranmehr.ir/files/audio/${num}-${surahEnNames[num-1]}.mp3`;
+  audio.src = link;
+  audio.style.display='block';
+  audio.play().catch(()=>{ /* اگر مرورگر مسدود کرد نادیده بگیر */ });
 }
 
-showBtn.onclick=()=>{fetchTranslation(select.value)};
-playBtn.onclick=()=>{playAudio(select.value)};
+showBtn.addEventListener('click', ()=>{ fetchTranslation(sel.value); });
+playBtn.addEventListener('click', ()=>{ playAudio(sel.value); });
 
-spinBtn.onclick=()=>{
-    const total=surahNames.length;
-    const chosen=Math.floor(Math.random()*total);
-    let i=0;
-    rouletteText.textContent=surahNames[0];
-    const rouletteAudio=new Audio('https://raw.githubusercontent.com/itsbehnamz/bottest/main/mixkit-slot-machine-payout-alarm-1996.wav');
-    rouletteAudio.play();
-
-    // افکت سریع رنگین کمانی
-    const interval=setInterval(()=>{
-        rouletteText.textContent=surahNames[i % total];
-        const hue = (i*15) % 360;
-        rouletteText.style.color=`hsl(${hue},90%,50%)`;
-        rouletteText.style.fontWeight="bold";
-        i++;
-    },40);
-
-    setTimeout(()=>{
-        clearInterval(interval);
-        rouletteText.textContent=surahNames[chosen];
-        rouletteText.style.animation="blink 1s infinite";
-        rouletteText.style.color="gold";
-        select.value=chosen+1;
-        fetchTranslation(chosen+1);
-        playAudio(chosen+1);
-    },6000);
-};
+// نسخه 6: چرخش با کند شدن تدریجی (delay افزایش می‌یابد)
+spinBtn.addEventListener('click', ()=> {
+  spinBtn.disabled = true;
+  const total = surahNames.length;
+  const chosen = Math.floor(Math.random()*total);
+  const rouletteSound = new Audio('https://raw.githubusercontent.com/itsbehnamz/bottest/main/mixkit-slot-machine-payout-alarm-1996.wav');
+  rouletteSound.play().catch(()=>{});
+  let idx = 0;
+  let delay = 40; // شروع سریع
+  const start = Date.now();
+  function step(){
+    rouletteText.textContent = surahNames[idx % total];
+    rouletteText.style.color = `hsl(${(idx*12)%360},80%,50%)`;
+    rouletteText.style.fontWeight='bold';
+    idx++;
+    // محاسبه تاخیر بعدی (افزایش تا رسیدن به ~120)
+    delay = Math.min(120, delay + 3);
+    if (Date.now() - start < 6000 - delay) {
+      setTimeout(step, delay);
+    } else {
+      // پایان - نمایش سوره منتخب
+      rouletteText.textContent = surahNames[chosen];
+      rouletteText.style.animation = 'blink 1s infinite';
+      rouletteText.style.color = 'gold';
+      sel.value = chosen + 1;
+      fetchTranslation(chosen+1);
+      // پخش صوت سوره منتخب (به علت کلیک کاربر، باید مجاز باشد)
+      playAudio(chosen+1);
+      setTimeout(()=>{ spinBtn.disabled = false; }, 800);
+    }
+  }
+  step();
+});
 </script>
 </body>
 </html>
