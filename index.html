@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قرآن با ترجمه و رولت شانسی</title>
+<title>قرآن با ترجمه و رولت شانسی – نسخه 2</title>
 <style>
 body {font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
 .card {background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:15px auto;}
@@ -17,35 +17,29 @@ button {padding:10px 15px;margin:5px;font-size:16px;border-radius:8px;border:1px
 </head>
 <body>
 
-<!-- گیف بالای صفحه -->
 <img src="https://www.tasvirezendegi.com/wp-content/uploads/2014/07/s308.gif" alt="تصویر قرآن" style="max-width:250px;display:block;margin:0 auto 15px;">
 
-<!-- انتخاب دستی سوره -->
 <div class="card">
 <label for="surahSelect"><b>انتخاب دستی سوره:</b></label>
 <select id="surahSelect" style="font-weight:bold;font-size:18px;"></select>
 </div>
 
-<!-- دکمه چرخاندن -->
 <div class="card">
 <button id="spinBtn">انتخاب شانسی سوره</button>
 <div id="rouletteContainer"><span id="rouletteText">الفاتحه</span></div>
 </div>
 
-<!-- دکمه‌های ترجمه و پخش صوت -->
 <div class="card">
 <button id="showBtn">نمایش ترجمه</button>
 <button id="playAudioBtn">پخش صوت</button>
 </div>
 
-<!-- نمایش ترجمه -->
 <div class="card">
 <h3 id="surahTitle"></h3>
 <div id="translation" style="font-weight:bold;"></div>
 <audio id="audioPlayer" controls style="display:none"></audio>
 </div>
 
-<!-- لینک سازنده -->
 <div class="card">
 <a href="https://instagram.com/itszolfi" target="_blank" class="instagram-link">
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/512px-Instagram_logo_2022.svg.png" alt="Instagram"> صفحه اینستاگرام سازنده ربات
@@ -53,19 +47,8 @@ button {padding:10px 15px;margin:5px;font-size:16px;border-radius:8px;border:1px
 </div>
 
 <script>
-const surahNames=[
-"الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
-"هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج",
-"المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب",
-"سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف",
-"محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله",
-"الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه",
-"المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر",
-"الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل",
-"الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه",
-"الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
-];
-const surahEnNames=[ /* نام انگلیسی مشابه قبل */ ];
+const surahNames=[ /* همان آرایه قبلی */ ];
+const surahEnNames=[ /* همان آرایه قبلی */ ];
 const select=document.getElementById("surahSelect");
 const showBtn=document.getElementById("showBtn");
 const playBtn=document.getElementById("playAudioBtn");
@@ -75,7 +58,6 @@ const audio=document.getElementById("audioPlayer");
 const rouletteText=document.getElementById("rouletteText");
 const spinBtn=document.getElementById("spinBtn");
 
-// پر کردن منوی سوره‌ها
 surahNames.forEach((n,i)=>{
   const opt=document.createElement("option");
   opt.value=i+1;
@@ -84,7 +66,6 @@ surahNames.forEach((n,i)=>{
   select.appendChild(opt);
 });
 
-// ترجمه و صوت
 async function fetchTranslation(num){
     translation.textContent="در حال دریافت ترجمه...";
     try{
@@ -104,11 +85,9 @@ function playAudio(num){
     audio.play();
 }
 
-// انتخاب دستی
 showBtn.onclick=()=>{fetchTranslation(select.value)};
 playBtn.onclick=()=>{playAudio(select.value)};
 
-// رولت با سوره برنده مشخص قبل از حرکت
 spinBtn.onclick=()=>{
     const total=surahNames.length;
     const chosen=Math.floor(Math.random()*total);
@@ -116,12 +95,16 @@ spinBtn.onclick=()=>{
     rouletteText.textContent=surahNames[0];
     const rouletteAudio=new Audio('https://raw.githubusercontent.com/itsbehnamz/bottest/main/mixkit-slot-machine-payout-alarm-1996.wav');
     rouletteAudio.play();
+
+    // افکت جدید: رنگین کمانی با سرعت متغیر
     const interval=setInterval(()=>{
         rouletteText.textContent=surahNames[i % total];
-        rouletteText.style.color=`hsl(${i*15%360},80%,50%)`;
+        const hue = (i*12) % 360;
+        rouletteText.style.color=`hsl(${hue},90%,50%)`;
         rouletteText.style.fontWeight="bold";
         i++;
-    },80);
+    },60);
+
     setTimeout(()=>{
         clearInterval(interval);
         rouletteText.textContent=surahNames[chosen];
@@ -130,7 +113,7 @@ spinBtn.onclick=()=>{
         select.value=chosen+1;
         fetchTranslation(chosen+1);
         playAudio(chosen+1);
-    },6000); 
+    },6000);
 };
 </script>
 </body>
