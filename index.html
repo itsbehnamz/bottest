@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قرآن با ترجمه و رولت شانسی – نسخه 2</title>
+<title>قرآن با ترجمه و رولت شانسی – نسخه 3</title>
 <style>
 body {font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
 .card {background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:15px auto;}
@@ -96,14 +96,14 @@ spinBtn.onclick=()=>{
     const rouletteAudio=new Audio('https://raw.githubusercontent.com/itsbehnamz/bottest/main/mixkit-slot-machine-payout-alarm-1996.wav');
     rouletteAudio.play();
 
-    // افکت جدید: رنگین کمانی با سرعت متغیر
+    // افکت سریع رنگین کمانی
     const interval=setInterval(()=>{
         rouletteText.textContent=surahNames[i % total];
-        const hue = (i*12) % 360;
+        const hue = (i*15) % 360;
         rouletteText.style.color=`hsl(${hue},90%,50%)`;
         rouletteText.style.fontWeight="bold";
         i++;
-    },60);
+    },40);
 
     setTimeout(()=>{
         clearInterval(interval);
