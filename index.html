@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قرآن با ترجمه و رولت شانسی - نسخه 1</title>
+<title>قرآن با ترجمه و رولت شانسی - نسخه 3</title>
 <style>
 body {font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
 .card {background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:15px auto;}
@@ -11,12 +11,12 @@ button {padding:10px 15px;margin:5px;font-size:16px;border-radius:8px;border:1px
 #rouletteContainer {width:100%;height:60px;margin:15px auto;border:2px solid #0b7a54;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;}
 .rouletteItem {padding:0 10px;margin:0 5px;transition: all 0.2s linear;font-weight:bold;}
 @keyframes blink {0%{color: gold;}50%{color: transparent;}100%{color: gold;}}
-#surahSelect {font-weight:bold;font-size:18px;}
+#surahSelect {font-weight:bold;font-size:20px;}
 </style>
 </head>
 <body>
 
-<img src="https://www.tasvirezendegi.com/wp-content/uploads/2014/07/s308.gif" alt="تصویر قرآن" style="max-width:250px;display:block;margin:0 auto 15px;">
+<img src="https://www.tasvirezendegi.com/wp-content/uploads/2014/07/s308.gif" alt="تصویر قرآن" style="max-width:220px;display:block;margin:0 auto 15px;">
 
 <div class="card">
 <label for="surahSelect"><b>انتخاب دستی سوره:</b></label>
@@ -64,7 +64,7 @@ surahNames.forEach((n,i)=>{
   opt.value=i+1;
   opt.textContent=`${i+1}. ${n}`;
   opt.style.fontWeight="bold";
-  opt.style.fontSize="18px";
+  opt.style.fontSize="19px";
   select.appendChild(opt);
 });
 
@@ -102,10 +102,10 @@ spinBtn.onclick=()=>{
     rouletteAudio.play();
     const interval=setInterval(()=>{
         rouletteText.textContent=surahNames[i % total];
-        rouletteText.style.color=`hsl(${i*10%360},80%,50%)`;
+        rouletteText.style.color=`hsl(${i*15%360},80%,50%)`;
         rouletteText.style.fontWeight="bold";
         i++;
-    },100);
+    },80);
     setTimeout(()=>{
         clearInterval(interval);
         const chosen=Math.floor(Math.random()*total);
