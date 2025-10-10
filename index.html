@@ -27,11 +27,11 @@
 <div class="card">
   <button id="spinBtn">چرخاندن (انتخاب شانسی سوره)</button>
   <div id="wheel" style="margin-top:12px">
-    <div class="slot" id="s0">الفاتحه</div>
-    <div class="slot" id="s1">البقره</div>
-    <div class="slot center" id="s2">آل عمران</div>
-    <div class="slot" id="s3">النساء</div>
-    <div class="slot" id="s4">المائده</div>
+    <div class="slot" id="s0"></div>
+    <div class="slot" id="s1"></div>
+    <div class="slot center" id="s2"></div>
+    <div class="slot" id="s3"></div>
+    <div class="slot" id="s4"></div>
   </div>
 </div>
 
@@ -65,12 +65,18 @@ const audio = document.getElementById('audioPlayer');
 const translation = document.getElementById('translation');
 const titleEl = document.getElementById('surahTitle');
 
+// پر کردن منوی انتخاب دستی
 surahNames.forEach((s,i)=>{
   const o=document.createElement('option'); o.value=i+1; o.textContent=`${i+1}. ${s}`; o.style.fontWeight='bold'; sel.appendChild(o);
 });
-sel.value=1;
-// init 5 slots
-for(let i=0;i<5;i++) slots[i].textContent = surahNames[i];
+sel.value = 1;
+
+// init 5 slots قبل از چرخاندن
+slots[0].textContent = surahNames[0];
+slots[1].textContent = surahNames[1];
+slots[2].textContent = surahNames[0]; // مرکز رولت پیش‌فرض الفاتحه
+slots[3].textContent = surahNames[3];
+slots[4].textContent = surahNames[4];
 
 async function fetchTranslation(num){
   translation.textContent='در حال دریافت ترجمه...';
@@ -82,46 +88,41 @@ async function fetchTranslation(num){
     titleEl.textContent = `${num}. ${surahNames[num-1]}`;
   }catch(e){ translation.textContent='خطا در بارگذاری ترجمه.'; }
 }
+
 function playAudio(num){
   audio.src = `https://quranmehr.ir/files/audio/${num}-${surahEn[num-1]}.mp3`;
   audio.style.display='block';
   audio.play().catch(()=>{});
 }
+
 showBtn.onclick = ()=>fetchTranslation(sel.value);
 playBtn.onclick = ()=>playAudio(sel.value);
 
-// spin: پنجره 5 تا که محتوا به ترتیب تغییر می‌کند و در نهایت مرکز انتخاب شود
+// spin: پنجره 5 تا
 spinBtn.addEventListener('click', ()=>{
   spinBtn.disabled = true;
   const total = surahNames.length;
   const chosen = Math.floor(Math.random()*total);
   const rouletteSound = new Audio('https://raw.githubusercontent.com/itsbehnamz/bottest/main/mixkit-slot-machine-payout-alarm-1996.wav');
   rouletteSound.play().catch(()=>{});
-  // prepare a long sequence centered so that final center equals chosen
+  
   let sequence = [];
-  // pick start index so that sequence[finalIndex] = chosen
-  const finalIndex = 40; // enough spins
+  const finalIndex = 40;
   const start = (chosen - finalIndex + total*10) % total;
   for(let i=0;i<finalIndex+5;i++) sequence.push(surahNames[(start+i)%total]);
-  // animate: cycle through sequence elements, with increasing delay (deceleration)
+
   let i=0;
   function step(){
-    // fill slots around center from current index
-    const center = sequence[i] || surahNames[0];
-    // show 2 before, center, 2 after
     for(let s=0;s<5;s++){
       const idx = i + s;
       slots[s].textContent = sequence[idx % sequence.length];
-      // color for visibility
       slots[s].style.color = (s===2)?'#111':'hsl('+((i+s)*12%360)+',85%,45%)';
       slots[s].style.transform = (s===2)?'scale(1.06)':'scale(1)';
     }
     i++;
-    // compute dynamic delay (small -> bigger)
     const delay = Math.min(160, 20 + Math.pow(i,1.4));
     if(i < sequence.length) setTimeout(step, delay);
     else {
-      // final: center shows chosen
       slots[2].textContent = surahNames[chosen];
       slots[2].style.animation = 'blink 1s infinite';
       slots[2].style.color = 'gold';
