@@ -3,15 +3,15 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>قرآن با ترجمه و رولت شانسی</title>
+<title>قرآن با ترجمه و رولت شانسی - نسخه 1</title>
 <style>
 body {font-family:"Vazirmatn","Tahoma",sans-serif;background:#f5f9f7;color:#111;text-align:center;padding:20px;}
 .card {background:#fff;border-radius:12px;padding:15px;box-shadow:0 0 10px rgba(0,0,0,0.1);max-width:900px;margin:15px auto;}
 button {padding:10px 15px;margin:5px;font-size:16px;border-radius:8px;border:1px solid #ccc;cursor:pointer;background:#0b7a54;color:#fff;}
-select {padding:10px;font-size:18px;font-weight:bold;}
 #rouletteContainer {width:100%;height:60px;margin:15px auto;border:2px solid #0b7a54;border-radius:8px;overflow:hidden;display:flex;align-items:center;justify-content:center;font-weight:bold;font-size:20px;}
 .rouletteItem {padding:0 10px;margin:0 5px;transition: all 0.2s linear;font-weight:bold;}
 @keyframes blink {0%{color: gold;}50%{color: transparent;}100%{color: gold;}}
+#surahSelect {font-weight:bold;font-size:18px;}
 </style>
 </head>
 <body>
@@ -41,43 +41,19 @@ select {padding:10px;font-size:18px;font-weight:bold;}
 <div class="card">
 <h3 id="surahTitle"></h3>
 <div id="translation" style="font-weight:bold;"></div>
-<audio id="audioPlayer" controls style="display:none"></audio>
+<audio id="audioPlayer" controls autoplay style="display:none"></audio>
 </div>
 
 <!-- لینک سازنده -->
 <div class="card">
-<a href="https://instagram.com/itszolfi" target="_blank" style="text-decoration:none;color:#0b7a54;">
-<img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" style="width:20px;vertical-align:middle;margin-left:5px;">
-<span>صفحه اینستاگرام سازنده ربات</span>
+<a href="https://instagram.com/itszolfi" target="_blank">
+<button>📸 صفحه اینستاگرام سازنده ربات</button>
 </a>
 </div>
 
 <script>
-const surahNames=[
-"الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس",
-"هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج",
-"المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب",
-"سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف",
-"محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله",
-"الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه",
-"المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر",
-"الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل",
-"الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه",
-"الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"
-];
-
-const surahEnNames=[
-"Fatiha","Baqarah","AalImran","Nisa","Maidah","Anam","Araf","Anfal","Tawbah","Yunus",
-"Hud","Yusuf","Rad","Ibrahim","Hijr","Nahl","Isra","Kahf","Maryam","Taha","Anbiya","Hajj",
-"Muminun","Nur","Furqan","Shuara","Naml","Qasas","Ankabut","Rum","Luqman","Sajdah","Ahzab",
-"Saba","Fatir","YaaSin","Saffat","Saad","Zumar","Ghafir","Fussilat","Shura","Zukhruf","Dukhan","Jathiyah","Ahqaf",
-"Muhammad","Fath","Hujurat","Qaf","Dhariyat","Tur","Najm","Qamar","Rahman","Waqiah","Hadid","Mujadilah",
-"Hashr","Mumtahinah","Saff","Jumuah","Munafiqun","Taghabun","Talaq","Tahrim","Mulk","Qalam","Haqqah",
-"Maarij","Nuh","Jinn","Muzammil","Mudathir","Qiyamah","Insan","Mursalat","Naba","Naziat","Abasa","Takwir",
-"Infitar","Mutaffifin","Inshiqaq","Buruj","Tariq","Alaa","Ghashiyah","Fajr","Balad","Shams","Layl",
-"Dhuha","Sharh","Tin","Alaq","Qadr","Baiyinah","Zalzalah","Adiyat","Qariah","Takathur","Asr","Humazah",
-"Fil","Quraysh","Maaun","Kauthar","Kafirun","Nasr","Masad","Ikhlas","Falaq","Nas"
-];
+const surahNames=["الفاتحه","البقره","آل‌عمران","النساء","المائده","الانعام","الاعراف","الانفال","التوبه","یونس","هود","یوسف","الرعد","ابراهیم","الحجر","النحل","الاسراء","الکهف","مریم","طه","الانبیاء","الحج","المؤمنون","النور","الفرقان","الشعراء","النمل","القصص","العنکبوت","الروم","لقمان","السجده","الاحزاب","سبأ","فاطر","یس","الصافات","ص","الزمر","غافر","فصلت","الشوری","الزخرف","الدخان","الجاثیه","الاحقاف","محمد","الفتح","الحجرات","ق","الذاریات","الطور","النجم","القمر","الرحمن","الواقعه","الحدید","المجادله","الحشر","الممتحنه","الصف","الجمعة","المنافقون","التغابن","الطلاق","التحریم","الملک","القلم","الحاقه","المعارج","نوح","الجن","المزمل","المدثر","القیامه","الانسان","المرسلات","النبأ","النازعات","عبس","التکویر","الانفطار","المطففین","الانشقاق","البروج","الطارق","الاعلی","الغاشیه","الفجر","البلد","الشمس","اللیل","الضحی","الشرح","التین","العلق","القدر","البینه","الزلزله","العادیات","القارعه","التکاثر","العصر","الهمزه","الفیل","قریش","الماعون","الکوثر","الکافرون","النصر","المسد","الاخلاص","الفلق","الناس"];
+const surahEnNames=["Fatiha","Baqarah","AalImran","Nisa","Maidah","Anam","Araf","Anfal","Tawbah","Yunus","Hud","Yusuf","Rad","Ibrahim","Hijr","Nahl","Isra","Kahf","Maryam","Taha","Anbiya","Hajj","Muminun","Nur","Furqan","Shuara","Naml","Qasas","Ankabut","Rum","Luqman","Sajdah","Ahzab","Saba","Fatir","YaaSin","Saffat","Saad","Zumar","Ghafir","Fussilat","Shura","Zukhruf","Dukhan","Jathiyah","Ahqaf","Muhammad","Fath","Hujurat","Qaf","Dhariyat","Tur","Najm","Qamar","Rahman","Waqiah","Hadid","Mujadilah","Hashr","Mumtahinah","Saff","Jumuah","Munafiqun","Taghabun","Talaq","Tahrim","Mulk","Qalam","Haqqah","Maarij","Nuh","Jinn","Muzammil","Mudathir","Qiyamah","Insan","Mursalat","Naba","Naziat","Abasa","Takwir","Infitar","Mutaffifin","Inshiqaq","Buruj","Tariq","Alaa","Ghashiyah","Fajr","Balad","Shams","Layl","Dhuha","Sharh","Tin","Alaq","Qadr","Baiyinah","Zalzalah","Adiyat","Qariah","Takathur","Asr","Humazah","Fil","Quraysh","Maaun","Kauthar","Kafirun","Nasr","Masad","Ikhlas","Falaq","Nas"];
 
 const select=document.getElementById("surahSelect");
 const showBtn=document.getElementById("showBtn");
@@ -94,7 +70,7 @@ surahNames.forEach((n,i)=>{
   opt.value=i+1;
   opt.textContent=`${i+1}. ${n}`;
   opt.style.fontWeight="bold";
-  opt.style.fontSize="20px"; // همان اندازه نسخه ۷ ستاره
+  opt.style.fontSize="18px";
   select.appendChild(opt);
 });
 
@@ -115,14 +91,15 @@ function playAudio(num){
     const link=`https://quranmehr.ir/files/audio/${num}-${surahEnNames[num-1]}.mp3`;
     audio.src=link;
     audio.style.display="block";
-    audio.play(); // همیشه خودکار پخش شود
+    audio.autoplay = true;
+    audio.play().catch(()=>{});
 }
 
-// انتخاب دستی
+// دکمه‌های دستی
 showBtn.onclick=()=>{fetchTranslation(select.value)};
 playBtn.onclick=()=>{playAudio(select.value)};
 
-// رولت
+// رولت شانسی
 spinBtn.onclick=()=>{
     let i=0;
     const total=surahNames.length;
@@ -134,7 +111,7 @@ spinBtn.onclick=()=>{
         rouletteText.style.color=`hsl(${i*10%360},80%,50%)`;
         rouletteText.style.fontWeight="bold";
         i++;
-    },80);
+    },100);
     setTimeout(()=>{
         clearInterval(interval);
         const chosen=Math.floor(Math.random()*total);
@@ -143,7 +120,7 @@ spinBtn.onclick=()=>{
         rouletteText.style.color="gold";
         select.value=chosen+1;
         fetchTranslation(chosen+1);
-        playAudio(chosen+1); // خودکار پخش شود
+        playAudio(chosen+1);
     },6000);
 };
 </script>
