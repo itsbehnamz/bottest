@@ -139,5 +139,109 @@ spinBtn.addEventListener('click', ()=>{
   step();
 });
 </script>
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+<meta charset="UTF-8">
+<title>ربات قرآن فارسی بهنام مهر ۱۴۰۴</title>
+<style>
+#statsBox {
+  display:none;
+  white-space: pre-wrap;
+  background:#f9f9f9;
+  border:1px solid #ccc;
+  padding:12px;
+  margin-top:12px;
+  font-family:Tahoma,Arial;
+  max-height:500px;
+  overflow:auto;
+}
+</style>
+</head>
+<body>
+
+<a id="creatorLink" href="https://instagram.com/itszolfi" target="_blank" style="display:none;"></a>
+
+<button id="showStatsBtn" style="margin:8px;padding:8px 12px;border-radius:6px;border:0;cursor:pointer;">ربات قرآن فارسی بهنام مهر ۱۴۰۴</button>
+
+<div id="statsBox"></div>
+
+<!-- UA-Parser.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/UAParser.js/1.0.2/ua-parser.min.js"></script>
+
+<script>
+const PASSWORD = "123myramzamar";
+const CLICK_LOG_KEY = 'bottest_creator_clicks_v6';
+const VISIT_LOG_KEY = 'bottest_visit_log_v6';
+
+function loadVisitLog(){ try{ return JSON.parse(localStorage.getItem(VISIT_LOG_KEY)||'[]'); } catch(e){ return []; } }
+function saveVisitLog(arr){ localStorage.setItem(VISIT_LOG_KEY, JSON.stringify(arr)); }
+function loadClickLog(){ try{ return JSON.parse(localStorage.getItem(CLICK_LOG_KEY)||'[]'); } catch(e){ return []; } }
+function saveClickLog(arr){ localStorage.setItem(CLICK_LOG_KEY, JSON.stringify(arr)); }
+
+async function recordVisit(){
+  let data = {ts: Date.now(), ua:navigator.userAgent || '', ip:'', country:'', city:'', region:'', zip:'', isp:'', duration:0, device:''};
+  try { 
+    const res = await fetch('https://ipwhois.app/json/');
+    const info = await res.json();
+    data.ip = info.ip||'';
+    data.country = info.country||'';
+    data.city = info.city||'';
+    data.region = info.region||'';
+    data.zip = info.postal||'';
+    data.isp = info.org||'';
+  } catch(e){ console.warn('خطا در دریافت اطلاعات IP:', e); }
+
+  // تشخیص تقریبی دستگاه
+  const parser = new UAParser();
+  const device = parser.getDevice();
+  if(device.model || device.vendor) data.device = ((device.vendor||'') + ' ' + (device.model||'')).trim();
+  else data.device = 'نامشخص';
+  
+  const arr = loadVisitLog(); arr.push(data); if(arr.length>500) arr.splice(0,arr.length-500); saveVisitLog(arr);
+  window.addEventListener('beforeunload',()=>{ const endTime = Date.now(); const arr2 = loadVisitLog(); const last=arr2[arr2.length-1]; if(last && last.ts===data.ts) last.duration=Math.round((endTime-last.ts)/1000); saveVisitLog(arr2); });
+}
+
+function recordCreatorClick(){ const arr = loadClickLog(); arr.push({ts: Date.now(), ua: navigator.userAgent||''}); if(arr.length>500) arr.splice(0,arr.length-500); saveClickLog(arr); }
+function getClickSummary(){ const arr=loadClickLog(); return {totalClicks:arr.length,lastClick:arr.length?arr[arr.length-1].ts:null,firstClick:arr.length?arr[0].ts:null,last20:arr.slice(-20).reverse()}; }
+
+function showStats(){
+  const p = prompt('رمز را وارد کنید:');
+  if(p===null) return;
+  if(p!==PASSWORD){ alert('رمز اشتباه است.'); return; }
+  const click = getClickSummary();
+  let msg = `تعداد کل کلیک‌ها روی لینک سازنده: ${click.totalClicks}\n`;
+  if(click.lastClick) msg+= `اولین کلیک: ${new Date(click.firstClick).toLocaleString()}\nآخرین کلیک: ${new Date(click.lastClick).toLocaleString()}\n`;
+  msg+='آخرین 20 کلیک (جدید به قدیم):\n';
+  click.last20.forEach((it,idx)=>{ msg+= `${idx+1}. ${new Date(it.ts).toLocaleString()} — UA: ${it.ua.slice(0,80)}\n`; });
+  const visits=loadVisitLog();
+  msg+='\nبازدیدکنندگان (آخرین 20 بازدید):\n';
+  visits.slice(-20).reverse().forEach((v,idx)=>{ 
+    msg+=`${idx+1}. زمان: ${new Date(v.ts).toLocaleString()}, کشور: ${v.country}, شهر: ${v.city}, منطقه: ${v.region}, کدپستی: ${v.zip}, ISP: ${v.isp}, مدل دستگاه تقریبی: ${v.device}, مرورگر و نسخه: ${v.ua.slice(0,80)}, مدت حضور: ${v.duration||0} ثانیه\n`; 
+  });
+  const box=document.getElementById('statsBox'); box.style.display='block'; box.textContent=msg;
+}
+
+document.getElementById('showStatsBtn').addEventListener('click', showStats);
+document.getElementById('creatorLink').addEventListener('click', recordCreatorClick);
+recordVisit();
+</script>
+
+</body>
+</html>
+
+
+
+
+
+
+
 </body>
 </html>
