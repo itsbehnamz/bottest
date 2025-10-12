@@ -16,49 +16,6 @@
   .instagram{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:#0b7a54;font-weight:bold}
 </style>
 </head>
-
-
-
-<!-- عکس فیکس بالای صفحه با حاشیه قرمز متحرک و عرض کامل -->
-<div id="fixedImage">
-  <img src="https://victoooria.com/files/wall-murals/11466/Calligraphy-religion/Surah-Falaq.webp" alt="تصویر ثابت">
-</div>
-
-<style>
-#fixedImage {
-  position: fixed;
-  top: 0;             /* بالای صفحه */
-  left: 0;
-  width: 100%;        /* عرض کامل صفحه */
-  height: 200px;      /* ارتفاع تقریبی ده خط */
-  padding: 4px;
-  z-index: 999;
-  border: 4px solid red;
-  border-radius: 0;
-  animation: borderMove 2s linear infinite;
-  box-sizing: border-box;
-  background: transparent;
-}
-
-#fixedImage img {
-  width: 100%;
-  height: 100%;
-  display: block;
-  object-fit: cover; /* عکس پر کند و کشیده نشود */
-}
-
-@keyframes borderMove {
-  0% { border-color: red; }
-  25% { border-color: orange; }
-  50% { border-color: yellow; }
-  75% { border-color: green; }
-  100% { border-color: red; }
-}
-</style>
-
-
-
-
 <body>
 <div class="card">
   <label><b>انتخاب دستی سوره:</b></label><br>
