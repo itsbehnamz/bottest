@@ -184,5 +184,27 @@ a:hover {
 
 
 
+
+
+<style>
+/* رفع لایه‌ای که جلوی کلیک‌ها رو گرفته */
+div, section, header, footer, main {
+  pointer-events: auto !important;
+}
+
+.overlay, .background, .cover, .mask, .shadow, .blur, .gray {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+a {
+  pointer-events: auto !important;
+  z-index: 9999;
+  position: relative;
+}
+</style>
+
+
+
 </body>
 </html>
