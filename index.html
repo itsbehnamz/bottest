@@ -140,11 +140,6 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
-
-
-
-
 <!doctype html>
 <html lang="fa">
 <head>
@@ -161,20 +156,18 @@ html,body{
   font-family:Tahoma,sans-serif;
 }
 
-/* نور متحرک قرمز دور کادر */
 @keyframes borderWave {
   0% {border-color: red;}
   50% {border-color: orange;}
   100% {border-color: red;}
 }
 
-/* کانتینر چت */
 #chatContainer{
-  position:fixed;
-  top:0;
+  position: fixed;
   bottom:0;
-  right:10px;
-  width:calc(50vh * 16 / 9); /* نسبت 16:9 با توجه به ارتفاع */
+  left:50%;
+  transform:translateX(-50%);
+  width: calc(50vh * 16 / 9);
   max-width:90%;
   z-index:999;
 }
@@ -182,7 +175,7 @@ html,body{
 .chat-box{
   display:flex;
   flex-direction:column;
-  height:100%;       /* چسبیده به بالا و پایین */
+  height:50vh;
   background:#f7fff7;
   overflow:hidden;
   border-radius:8px;
@@ -271,6 +264,12 @@ html,body{
 </style>
 </head>
 <body>
+
+<!-- محتوای اصلی سایت -->
+<div id="surahContainer">...سوره‌ها...</div>
+<div id="rouletteContainer">...رولت...</div>
+
+<!-- چت نسخه دو پنج ستاره -->
 <div id="chatContainer">
   <div class="chat-box">
     <div class="chat-header">
@@ -348,7 +347,6 @@ function register(){
   const name=nameInput.value.trim(); 
   if(!name){alert('نام خود را وارد کنید');return;}
 
-  // بررسی نام‌های موجود
   const existingNames=[];
   USERS.map().once(u=>{if(u && u.name) existingNames.push(u.name);});
 
@@ -368,7 +366,7 @@ function register(){
     userInput.focus();
     setInterval(()=>{USERS.get(myId).put({name:myName,time:Math.floor(Date.now()/1000)});},(PRESENCE_TTL/2)*1000);
     updateOnline();
-  },300); // کمی تاخیر تا نام‌ها از سرور بارگذاری شوند
+  },300);
 }
 
 function updateOnline(){
