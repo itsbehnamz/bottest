@@ -1,16 +1,14 @@
 
-
-<!-- شروع: فوتر لینک‌ها -->
 <div id="footerLinks">
-  <a class="anchorStyle" href="https://instagram.com/itszolfi" target="_blank" rel="noopener noreferrer" onclick="openLink(event,'https://instagram.com/itszolfi')">
-    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png" alt="instagram">
-  </a>
+  <button class="btn" onclick="openLink('https://instagram.com/itszolfi')">
+    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png" alt="Instagram">
+  </button>
 
   <span class="label">قرآن فارسی بهنام - مهر ۱۴۰۴</span>
 
-  <a class="anchorStyle" href="https://t.me/itszolfi" target="_blank" rel="noopener noreferrer" onclick="openLink(event,'https://t.me/itszolfi')">
-    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="telegram">
-  </a>
+  <button class="btn" onclick="openLink('https://t.me/itszolfi')">
+    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
+  </button>
 </div>
 
 <style>
@@ -26,10 +24,15 @@
     width:fit-content;
     margin:18px auto;
   }
+  .btn{
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:0;
+  }
   .icon{
     width:24px;
     height:24px;
-    cursor:pointer;
     filter:drop-shadow(0 0 8px #00ff88);
     transition:transform .18s,filter .18s;
   }
@@ -44,21 +47,16 @@
     text-shadow:0 0 6px #00ff88,0 0 12px #00ff88;
     user-select:none;
   }
-  .anchorStyle{text-decoration:none}
 </style>
 
 <script>
-  function openLink(e, url){
-    try{ e.preventDefault(); }catch{}
-
-    // روش اول: باز کردن مستقیم تب جدید
-    try{
-      const win = window.open(url, '_blank', 'noopener,noreferrer');
-      if(win){ win.focus(); return; }
-    }catch{}
-
-    // روش دوم: ساخت لینک موقت و کلیک
-    try{
+  function openLink(url){
+    try {
+      // تلاش ۱: window.open معمولی
+      const w = window.open(url, '_blank');
+      if (w) return w.focus();
+      
+      // تلاش ۲: ترفند anchor ساختگی
       const a = document.createElement('a');
       a.href = url;
       a.target = '_blank';
@@ -67,19 +65,13 @@
       document.body.appendChild(a);
       a.click();
       a.remove();
-      return;
-    }catch{}
-
-    // روش سوم: fallback در همان تب
-    try{
-      window.location.href = url;
-    }catch{}
-
-    // در صورت بلاک کامل
-    alert('مرورگر اجازه باز شدن لینک در تب جدید را نداد. لطفاً روی لینک لمس طولانی یا کلیک راست کنید و گزینهٔ "باز کردن در تب جدید" را بزنید.');
+    } catch (e) {
+      // تلاش ۳: باز کردن در همین صفحه در صورت بلاک کامل
+      location.href = url;
+    }
   }
 </script>
-<!-- پایان: فوتر لینک‌ها -->
+
 
 
 
