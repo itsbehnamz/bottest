@@ -1,78 +1,4 @@
 
-<div id="footerLinks">
-  <button class="btn" onclick="openLink('https://instagram.com/itszolfi')">
-    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png" alt="Instagram">
-  </button>
-
-  <span class="label">قرآن فارسی بهنام - مهر ۱۴۰۴</span>
-
-  <button class="btn" onclick="openLink('https://t.me/itszolfi')">
-    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="Telegram">
-  </button>
-</div>
-
-<style>
-  #footerLinks{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:14px;
-    background:#000;
-    padding:10px 16px;
-    border-radius:14px;
-    box-shadow:0 0 14px rgba(0,255,100,0.2);
-    width:fit-content;
-    margin:18px auto;
-  }
-  .btn{
-    background:none;
-    border:none;
-    cursor:pointer;
-    padding:0;
-  }
-  .icon{
-    width:24px;
-    height:24px;
-    filter:drop-shadow(0 0 8px #00ff88);
-    transition:transform .18s,filter .18s;
-  }
-  .icon:hover{
-    transform:scale(1.1);
-    filter:drop-shadow(0 0 14px #00ff88);
-  }
-  .label{
-    font-weight:bold;
-    font-size:13px;
-    color:#fff;
-    text-shadow:0 0 6px #00ff88,0 0 12px #00ff88;
-    user-select:none;
-  }
-</style>
-
-<script>
-  function openLink(url){
-    try {
-      // تلاش ۱: window.open معمولی
-      const w = window.open(url, '_blank');
-      if (w) return w.focus();
-      
-      // تلاش ۲: ترفند anchor ساختگی
-      const a = document.createElement('a');
-      a.href = url;
-      a.target = '_blank';
-      a.rel = 'noopener noreferrer';
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-    } catch (e) {
-      // تلاش ۳: باز کردن در همین صفحه در صورت بلاک کامل
-      location.href = url;
-    }
-  }
-</script>
-
-
 
 
 
@@ -94,6 +20,52 @@
   .instagram{display:flex;align-items:center;justify-content:center;gap:8px;text-decoration:none;color:#0b7a54;font-weight:bold}
 </style>
 </head>
+
+
+
+
+<!-- لوگو و لینک‌ها بالای سایت -->
+<div id="topBar" style="text-align:center; margin-bottom:15px;">
+  <button id="instaBtn" style="background:none;border:none;cursor:pointer;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/40px-Instagram_logo_2022.svg.png" style="width:24px;height:24px;vertical-align:middle">
+  </button>
+  <button id="tgBtn" style="background:none;border:none;cursor:pointer;">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/82/Telegram_logo.svg/40px-Telegram_logo.svg.png" style="width:24px;height:24px;vertical-align:middle">
+  </button>
+  <span id="topText" style="font-weight:bold; font-size:16px; margin-left:8px; color:gold; text-shadow:0 0 5px gold,0 0 10px gold; animation:blink 1.5s infinite;">قرآن فارسی بهنام - مهر ۱۴۰۴</span>
+</div>
+
+<style>
+@keyframes blink {
+  0%,100% {color: gold; text-shadow:0 0 5px gold,0 0 10px gold;}
+  50% {color: #fff; text-shadow:none;}
+}
+</style>
+
+<script>
+window.addEventListener('DOMContentLoaded', () => {
+  function openLink(url){
+    const w = window.open(url,'_blank');
+    if(w) return w.focus();
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    a.style.display='none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
+  document.getElementById('instaBtn').onclick = ()=>openLink('https://instagram.com/itszolfi');
+  document.getElementById('tgBtn').onclick = ()=>openLink('https://t.me/itszolfi');
+});
+</script>
+
+
+
+
+
 <body>
 
 
