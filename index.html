@@ -1,56 +1,81 @@
 
-<div id="footerLinks" style="
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  gap:12px;
-  background:#000;
-  padding:10px 15px;
-  border-radius:15px;
-  box-shadow:0 0 10px rgba(0,255,0,0.15);
-  direction:rtl;
-  font-family:sans-serif;
-">
-  <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png"
-       style="width:22px;height:22px;cursor:pointer;filter:drop-shadow(0 0 6px #00ff00);transition:0.3s;"
-       onclick="openLink('https://instagram.com/itszolfi')">
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Footer links — test</title>
+<style>
+  body{background:#111;color:#fff;font-family:Tahoma, sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center}
+  #footerLinks{
+    display:flex;align-items:center;gap:12px;background:#000;padding:10px 15px;border-radius:12px;box-shadow:0 0 12px rgba(0,255,140,0.08)
+  }
+  .icon{width:22px;height:22px;cursor:pointer;filter:drop-shadow(0 0 6px #00ff88);transition:transform .15s,filter .15s}
+  .icon:hover{transform:scale(1.08);filter:drop-shadow(0 0 12px #66ffb3)}
+  .label{font-weight:bold;font-size:13px;color:#fff;text-shadow:0 0 6px #00ff88,0 0 12px #00ff88;user-select:none}
+  a.anchorStyle{text-decoration:none}
+</style>
+</head>
+<body>
 
-  <span style="
-    font-weight:bold;
-    font-size:13px;
-    color:#fff;
-    text-shadow:0 0 4px #00ff00, 0 0 10px #00ff00;
-    animation:glowGreen 2s infinite alternate;
-    cursor:default;
-  ">
-    قرآن فارسی بهنام - مهر ۱۴۰۴
-  </span>
+<div id="footerLinks">
+  <!-- anchor واقعی هم میذاریم (برای محیط‌هایی که فقط تگ a کار میکنه) -->
+  <a class="anchorStyle" href="https://instagram.com/itszolfi" target="_blank" rel="noopener noreferrer" onclick="openLink(event,'https://instagram.com/itszolfi')">
+    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png" alt="instagram">
+  </a>
 
-  <img src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg"
-       style="width:22px;height:22px;cursor:pointer;filter:drop-shadow(0 0 6px #00ff00);transition:0.3s;"
-       onclick="openLink('https://t.me/itszolfi')">
+  <span class="label">قرآن فارسی بهنام - مهر ۱۴۰۴</span>
+
+  <a class="anchorStyle" href="https://t.me/itszolfi" target="_blank" rel="noopener noreferrer" onclick="openLink(event,'https://t.me/itszolfi')">
+    <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/8/82/Telegram_logo.svg" alt="telegram">
+  </a>
 </div>
 
-<style>
-@keyframes glowGreen {
-  from { text-shadow: 0 0 4px #00ff00, 0 0 10px #00ff00; }
-  to { text-shadow: 0 0 15px #66ff66, 0 0 25px #00ff99; }
-}
-#footerLinks img:hover {
-  transform: scale(1.1);
-  filter: drop-shadow(0 0 10px #66ff66);
-}
-</style>
-
 <script>
-function openLink(url){
+/*
+  openLink(event, url)
+  - فراخوانی مستقیم در onclick تگ <a> انجام می‌شود (همراه event) تا مرورگر بفهمد کاربر این خواسته را آغاز کرده.
+  - سپس چند fallback امتحان می‌شود.
+*/
+function openLink(e, url){
+  // اطمینان از اینکه رویداد کلیک به عنوان تعامل کاربر شناخته میشه
+  if(e && typeof e.preventDefault === 'function') e.preventDefault();
+
+  // تلاش 1: window.open
   try {
-    window.open(url, '_blank', 'noopener,noreferrer');
-  } catch(e){
-    window.location.href = url; // حالت جایگزین
-  }
+    const newWin = window.open(url, '_blank', 'noopener,noreferrer');
+    if (newWin) {
+      newWin.focus();
+      return;
+    }
+  } catch(err){ /* ignore */ }
+
+  // تلاش 2: ساخت یک anchor موقت و click کردنش (معمولاً در تعامل کاربر امنه)
+  try {
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.rel = 'noopener noreferrer';
+    // لازم نیست به DOM اضافه کنیم، اما بعضی مرورگرها نیاز دارند:
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    return;
+  } catch(err){ /* ignore */ }
+
+  // تلاش 3: تغییر location (fallback: در همان تب باز می‌شود)
+  try {
+    window.location.href = url;
+    return;
+  } catch(err){ /* ignore */ }
+
+  // اگر اینجا رسیدیم، به کاربر پیام میدیم
+  alert('مرورگر شما از باز کردن تب جدید جلوگیری کرد. لطفاً روی لینک انگشت/کلیک طولانی کنید و "Open in new tab" را انتخاب کنید.');
 }
 </script>
+</body>
+</html>
 
 
 
