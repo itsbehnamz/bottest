@@ -1,25 +1,7 @@
 
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Footer links — test</title>
-<style>
-  body{background:#111;color:#fff;font-family:Tahoma, sans-serif;display:flex;min-height:100vh;align-items:center;justify-content:center}
-  #footerLinks{
-    display:flex;align-items:center;gap:12px;background:#000;padding:10px 15px;border-radius:12px;box-shadow:0 0 12px rgba(0,255,140,0.08)
-  }
-  .icon{width:22px;height:22px;cursor:pointer;filter:drop-shadow(0 0 6px #00ff88);transition:transform .15s,filter .15s}
-  .icon:hover{transform:scale(1.08);filter:drop-shadow(0 0 12px #66ffb3)}
-  .label{font-weight:bold;font-size:13px;color:#fff;text-shadow:0 0 6px #00ff88,0 0 12px #00ff88;user-select:none}
-  a.anchorStyle{text-decoration:none}
-</style>
-</head>
-<body>
 
+<!-- شروع: فوتر لینک‌ها -->
 <div id="footerLinks">
-  <!-- anchor واقعی هم میذاریم (برای محیط‌هایی که فقط تگ a کار میکنه) -->
   <a class="anchorStyle" href="https://instagram.com/itszolfi" target="_blank" rel="noopener noreferrer" onclick="openLink(event,'https://instagram.com/itszolfi')">
     <img class="icon" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Instagram_logo_2022.svg/256px-Instagram_logo_2022.svg.png" alt="instagram">
   </a>
@@ -31,51 +13,73 @@
   </a>
 </div>
 
+<style>
+  #footerLinks{
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:14px;
+    background:#000;
+    padding:10px 16px;
+    border-radius:14px;
+    box-shadow:0 0 14px rgba(0,255,100,0.2);
+    width:fit-content;
+    margin:18px auto;
+  }
+  .icon{
+    width:24px;
+    height:24px;
+    cursor:pointer;
+    filter:drop-shadow(0 0 8px #00ff88);
+    transition:transform .18s,filter .18s;
+  }
+  .icon:hover{
+    transform:scale(1.1);
+    filter:drop-shadow(0 0 14px #00ff88);
+  }
+  .label{
+    font-weight:bold;
+    font-size:13px;
+    color:#fff;
+    text-shadow:0 0 6px #00ff88,0 0 12px #00ff88;
+    user-select:none;
+  }
+  .anchorStyle{text-decoration:none}
+</style>
+
 <script>
-/*
-  openLink(event, url)
-  - فراخوانی مستقیم در onclick تگ <a> انجام می‌شود (همراه event) تا مرورگر بفهمد کاربر این خواسته را آغاز کرده.
-  - سپس چند fallback امتحان می‌شود.
-*/
-function openLink(e, url){
-  // اطمینان از اینکه رویداد کلیک به عنوان تعامل کاربر شناخته میشه
-  if(e && typeof e.preventDefault === 'function') e.preventDefault();
+  function openLink(e, url){
+    try{ e.preventDefault(); }catch{}
 
-  // تلاش 1: window.open
-  try {
-    const newWin = window.open(url, '_blank', 'noopener,noreferrer');
-    if (newWin) {
-      newWin.focus();
+    // روش اول: باز کردن مستقیم تب جدید
+    try{
+      const win = window.open(url, '_blank', 'noopener,noreferrer');
+      if(win){ win.focus(); return; }
+    }catch{}
+
+    // روش دوم: ساخت لینک موقت و کلیک
+    try{
+      const a = document.createElement('a');
+      a.href = url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.style.display = 'none';
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
       return;
-    }
-  } catch(err){ /* ignore */ }
+    }catch{}
 
-  // تلاش 2: ساخت یک anchor موقت و click کردنش (معمولاً در تعامل کاربر امنه)
-  try {
-    const a = document.createElement('a');
-    a.href = url;
-    a.target = '_blank';
-    a.rel = 'noopener noreferrer';
-    // لازم نیست به DOM اضافه کنیم، اما بعضی مرورگرها نیاز دارند:
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
-    return;
-  } catch(err){ /* ignore */ }
+    // روش سوم: fallback در همان تب
+    try{
+      window.location.href = url;
+    }catch{}
 
-  // تلاش 3: تغییر location (fallback: در همان تب باز می‌شود)
-  try {
-    window.location.href = url;
-    return;
-  } catch(err){ /* ignore */ }
-
-  // اگر اینجا رسیدیم، به کاربر پیام میدیم
-  alert('مرورگر شما از باز کردن تب جدید جلوگیری کرد. لطفاً روی لینک انگشت/کلیک طولانی کنید و "Open in new tab" را انتخاب کنید.');
-}
+    // در صورت بلاک کامل
+    alert('مرورگر اجازه باز شدن لینک در تب جدید را نداد. لطفاً روی لینک لمس طولانی یا کلیک راست کنید و گزینهٔ "باز کردن در تب جدید" را بزنید.');
+  }
 </script>
-</body>
-</html>
+<!-- پایان: فوتر لینک‌ها -->
 
 
 
