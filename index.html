@@ -17,6 +17,50 @@
 </style>
 </head>
 <body>
+
+
+
+
+
+<!-- عکس فیکس بالای صفحه با حاشیه قرمز متحرک و عرض کامل -->
+<div id="fixedTopImage">
+  <img src="https://victoooria.com/files/wall-murals/11466/Calligraphy-religion/Surah-Falaq.webp" alt="تصویر ثابت">
+</div>
+
+<style>
+#fixedTopImage {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;       /* عرض کامل صفحه */
+  height: 200px;     /* ارتفاع تقریبی شش خط چت */
+  padding: 4px;
+  z-index: 9999;     /* بالاتر از همه عناصر */
+  border: 4px solid red;
+  border-radius: 0;
+  animation: borderMove 2s linear infinite;
+  box-sizing: border-box;
+  background: transparent;
+}
+
+#fixedTopImage img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover; /* عکس پر کند و کشیده نشود */
+}
+
+@keyframes borderMove {
+  0% { border-color: red; }
+  25% { border-color: orange; }
+  50% { border-color: yellow; }
+  75% { border-color: green; }
+  100% { border-color: red; }
+}
+</style>
+
+
+
 <div class="card">
   <label><b>انتخاب دستی سوره:</b></label><br>
   <select id="surahSelect"></select>
