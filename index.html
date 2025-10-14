@@ -167,7 +167,6 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -182,10 +181,10 @@ spinBtn.addEventListener('click', ()=>{
     padding: 0;
     background: transparent;
     font-family: 'Vazirmatn', sans-serif;
-    text-align: center; /* مرکز افقی */
+    text-align: center;
   }
 
-  /* دکمه بالای صفحه */
+  /* دکمه منو */
   .menu-button {
     background: linear-gradient(135deg, #f39c12, #e67e22);
     color: white;
@@ -197,9 +196,9 @@ spinBtn.addEventListener('click', ()=>{
     overflow: hidden;
     box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     transition: transform 0.2s ease;
-    position: relative;
-    margin-top: 10px; /* فاصله از بالای صفحه */
+    margin-top: 10px;
     display: inline-block;
+    position: relative;
   }
   .menu-button:hover { transform: scale(1.07); }
 
@@ -215,41 +214,47 @@ spinBtn.addEventListener('click', ()=>{
     to { transform: scale(4); opacity: 0; }
   }
 
-  /* منوی بازشونده */
+  /* منوی بازشونده پله‌ای */
   .menu {
     display: none;
     flex-direction: column;
     background: rgba(255,255,255,0.98);
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
-    padding: 8px;
-    text-align: right;
-    margin: 10px auto 0 auto; /* مرکز افقی */
+    padding: 0;
+    text-align: center;
+    margin: 0 auto;
     min-width: 200px;
+    overflow: hidden;
   }
 
   .menu a {
     text-decoration: none;
     color: #d35400;
-    padding: 8px 15px;
-    border-radius: 10px;
+    padding: 10px 0;
     font-weight: 600;
     font-size: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 6px;
-    margin-bottom: 5px;
+    display: block;
+    width: 100%;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+
+  .menu a.show {
+    opacity: 1;
+    transform: translateY(0);
   }
 
   .menu a img {
     width: 18px;
     height: 18px;
+    vertical-align: middle;
+    margin-left: 6px;
   }
 
   .menu a:hover {
     background: #ffe0b2;
-    transform: translateX(-3px);
   }
 </style>
 </head>
@@ -269,9 +274,10 @@ spinBtn.addEventListener('click', ()=>{
 <script>
   const menuBtn = document.getElementById('menuBtn');
   const menu = document.getElementById('menu');
+  const menuLinks = menu.querySelectorAll('a');
 
-  // باز و بسته شدن منو با افکت موجی
-  menuBtn.addEventListener('click', function (e) {
+  menuBtn.addEventListener('click', function(e) {
+    // افکت موجی
     const circle = document.createElement("span");
     const diameter = Math.max(this.clientWidth, this.clientHeight);
     const rect = this.getBoundingClientRect();
@@ -285,20 +291,37 @@ spinBtn.addEventListener('click', ()=>{
     if (ripple) ripple.remove();
     this.appendChild(circle);
 
-    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
+    // باز و بسته کردن منو با افکت پله‌ای
+    if (menu.style.display === "flex") {
+      menuLinks.forEach((link, i) => {
+        setTimeout(() => link.classList.remove('show'), i * 50);
+      });
+      setTimeout(() => menu.style.display = 'none', menuLinks.length * 50);
+    } else {
+      menu.style.display = 'flex';
+      menuLinks.forEach((link, i) => {
+        setTimeout(() => link.classList.add('show'), i * 100);
+      });
+    }
   });
 
   // بستن منو هنگام کلیک روی لینک
-  document.querySelectorAll('.menu a').forEach(link => {
+  menuLinks.forEach(link => {
     link.addEventListener('click', () => {
-      menu.style.display = 'none';
+      menuLinks.forEach((l, i) => {
+        setTimeout(() => l.classList.remove('show'), i * 50);
+      });
+      setTimeout(() => menu.style.display = 'none', menuLinks.length * 50);
     });
   });
 
   // بستن منو با کلیک بیرون
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
-      menu.style.display = 'none';
+      menuLinks.forEach((l, i) => {
+        setTimeout(() => l.classList.remove('show'), i * 50);
+      });
+      setTimeout(() => menu.style.display = 'none', menuLinks.length * 50);
     }
   });
 </script>
