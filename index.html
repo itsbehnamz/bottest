@@ -166,6 +166,11 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
+
+
+
+
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -186,11 +191,15 @@ spinBtn.addEventListener('click', ()=>{
     left: 0;
     right: 0;
     max-height: 200px;
-    background: rgba(255, 255, 0, 0.8);
+    background: rgba(64, 224, 208, 0.9); /* فیروزه ای کمی شفاف */
+    border-bottom: 3px solid #006400; /* سبز تیره */
     overflow-y: auto;
     padding: 10px;
     box-sizing: border-box;
     z-index: 9999;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .hadithText {
@@ -200,14 +209,14 @@ spinBtn.addEventListener('click', ()=>{
   }
 
   #closeBtn {
-    position: absolute;
-    bottom: 5px;
-    left: 10px;
-    background: #ff0000;
+    align-self: center;
+    margin-top: 10px;
+    background: rgba(64, 224, 208, 0.8); /* همان فیروزه ای با کمی شفافیت */
     color: #fff;
-    border: none;
-    padding: 3px 8px;
+    border: 2px solid #006400;
+    padding: 5px 15px;
     cursor: pointer;
+    font-size: 16px;
   }
 </style>
 </head>
