@@ -166,93 +166,110 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-<!-- 👇 بگذار بالای سایت و قبل از بقیه عناصر در <body> -->
-<div id="hadith-box" style="
-  position: fixed;
-  top: 10px;
-  right: 50%;
-  transform: translateX(50%);
-  background: rgba(255, 230, 0, 0.85);
-  color: #000;
-  font-family: 'B Nazanin', serif;
-  font-size: 18px;
-  padding: 12px 20px;
-  border-radius: 18px;
-  box-shadow: 0 0 15px rgba(0,0,0,0.3);
-  z-index: 9999;
-  max-width: 85%;
-  text-align: center;
-  line-height: 1.8rem;
-  opacity: 0;
-  transition: opacity 1s ease;
-">
-  <div id="hadith-text">در حال بارگذاری...</div>
-  <div id="hadith-source" style="font-size:14px;color:#222;margin-top:6px;"></div>
-  <div id="hadith-more" style="display:none; margin-top:8px;">
-    <button onclick="toggleMore(false)" style="background:#000;color:#fff;border:none;padding:4px 8px;border-radius:8px;cursor:pointer;">بستن</button>
-  </div>
-</div>
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>احادیث قدسی</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: #fff8dc; /* زرد کم‌رنگ */
+    font-family: "Vazir", sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  #hadith-box {
+    background: rgba(255, 255, 150, 0.6);
+    color: black;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.2);
+    padding: 20px 30px;
+    width: 80%;
+    max-width: 800px;
+    text-align: justify;
+    font-size: 18px;
+    line-height: 1.8;
+    transition: opacity 1s ease-in-out;
+    position: relative;
+    direction: rtl;
+  }
+
+  #continue-btn, #close-btn {
+    color: #b58900;
+    cursor: pointer;
+    font-weight: bold;
+  }
+
+  #continue-btn:hover, #close-btn:hover {
+    color: #d49a00;
+  }
+
+  .fade-in {
+    opacity: 1;
+  }
+
+  .fade-out {
+    opacity: 0;
+  }
+</style>
+</head>
+<body>
+
+<div id="hadith-box">در حال بارگذاری...</div>
 
 <script>
-let hadiths = [];
-let currentIndex = -1;
-let fullText = "";
-let shortText = "";
+  let hadiths = [];
 
-async function loadHadiths() {
-  try {
-    const response = await fetch('ahadith40.json');
-    hadiths = await response.json();
-    showRandomHadith();
-    setInterval(showRandomHadith, 14000); // هر ۱۴ ثانیه حدیث جدید
-  } catch (e) {
-    document.getElementById('hadith-text').textContent = "❌ خطا در بارگذاری احادیث";
-    console.error(e);
+  // فایل جیسون را می‌خواند
+  fetch("hadiths.json")
+    .then(res => res.json())
+    .then(data => {
+      hadiths = data;
+      showRandomHadith();
+      setInterval(showRandomHadith, 14000); // هر ۱۴ ثانیه
+    });
+
+  function showRandomHadith() {
+    if (hadiths.length === 0) return;
+    const box = document.getElementById("hadith-box");
+    box.classList.remove("fade-in");
+    box.classList.add("fade-out");
+
+    setTimeout(() => {
+      const randomHadith = hadiths[Math.floor(Math.random() * hadiths.length)];
+      const fullText = randomHadith.text.trim();
+
+      // فقط دو خط اول (تقریباً 130 کاراکتر)
+      const shortText = fullText.length > 130 ? fullText.substring(0, 130) + "..." : fullText;
+
+      if (fullText.length > 130) {
+        box.innerHTML = `
+          <span>${shortText}</span>
+          <span id="continue-btn"> ادامه متن...</span>
+        `;
+        document.getElementById("continue-btn").onclick = () => {
+          box.innerHTML = `
+            <span>${fullText}</span>
+            <span id="close-btn"> ✖ بستن</span>
+          `;
+          document.getElementById("close-btn").onclick = showRandomHadith;
+        };
+      } else {
+        box.innerHTML = `<span>${fullText}</span>`;
+      }
+
+      box.classList.remove("fade-out");
+      box.classList.add("fade-in");
+    }, 500);
   }
-}
-
-function showRandomHadith() {
-  const box = document.getElementById('hadith-box');
-  const textDiv = document.getElementById('hadith-text');
-  const sourceDiv = document.getElementById('hadith-source');
-  const moreDiv = document.getElementById('hadith-more');
-
-  box.style.opacity = "0";
-  setTimeout(() => {
-    let randomIndex;
-    do {
-      randomIndex = Math.floor(Math.random() * hadiths.length);
-    } while (randomIndex === currentIndex);
-    currentIndex = randomIndex;
-
-    const hadith = hadiths[randomIndex];
-    fullText = hadith.text.trim();
-    shortText = splitHadith(fullText);
-    textDiv.innerHTML = shortText;
-    sourceDiv.textContent = hadith.source ? `(${hadith.source})` : '';
-    moreDiv.style.display = "none";
-    box.style.opacity = "1";
-  }, 600);
-}
-
-function splitHadith(text) {
-  const words = text.split(" ");
-  if (words.length <= 25) return text; // حدود دو خط
-  const shortPart = words.slice(0, 25).join(" ");
-  return shortPart + ` ... <span onclick="toggleMore(true)" style="color:darkred;cursor:pointer;font-weight:bold;">ادامه متن</span>`;
-}
-
-function toggleMore(show) {
-  const textDiv = document.getElementById('hadith-text');
-  const moreDiv = document.getElementById('hadith-more');
-  if (show) {
-    textDiv.innerHTML = fullText;
-    moreDiv.style.display = "block";
-  } else {
-    textDiv.innerHTML = shortText;
-    moreDiv.style.display = "none";
-  }
-}
-
-window.addEventListener("load", loadHadiths);
 </script>
+
+</body>
+</html>
