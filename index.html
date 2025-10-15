@@ -166,6 +166,7 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -220,7 +221,6 @@ spinBtn.addEventListener('click', ()=>{
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     padding: 0;
     margin: 0 auto;
-    width: auto;
     min-width: 200px;
   }
 
@@ -228,10 +228,10 @@ spinBtn.addEventListener('click', ()=>{
     text-decoration: none;
     color: #d35400;
     padding: 10px 22px;
-    border-bottom: 1px solid #f1f1f1;
     font-weight: 600;
     font-size: 14px;
     display: block;
+    border-bottom: 1px solid #f1f1f1;
   }
 
   .menu a:last-child {
@@ -267,8 +267,8 @@ spinBtn.addEventListener('click', ()=>{
   const menuBtn = document.getElementById('menuBtn');
   const menu = document.getElementById('menu');
 
+  // باز و بسته شدن منو با کلیک روی دکمه
   menuBtn.addEventListener('click', function(e) {
-    // افکت موجی
     const circle = document.createElement("span");
     const diameter = Math.max(this.clientWidth, this.clientHeight);
     const rect = this.getBoundingClientRect();
@@ -282,14 +282,14 @@ spinBtn.addEventListener('click', ()=>{
     if (ripple) ripple.remove();
     this.appendChild(circle);
 
-    // باز و بسته کردن منو
     menu.style.display = menu.style.display === "flex" ? "none" : "flex";
   });
 
-  // بستن منو هنگام کلیک روی لینک
+  // بستن منو هنگام کلیک روی لینک بعد از باز شدن لینک در تب جدید
   document.querySelectorAll('.menu a').forEach(link => {
-    link.addEventListener('click', () => {
+    link.addEventListener('click', (e) => {
       menu.style.display = 'none';
+      // لینک در تب جدید باز می‌شود بخاطر target="_blank"
     });
   });
 
@@ -303,4 +303,3 @@ spinBtn.addEventListener('click', ()=>{
 
 </body>
 </html>
-    
