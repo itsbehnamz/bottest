@@ -170,49 +170,127 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>احادیث قدسی</title>
+<style>
+  body { font-family: Tahoma, sans-serif; background: #fff; margin:0; padding:0; }
+  #hadithBox {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    max-width: 800px;
+    background: rgba(255, 255, 150, 0.8); /* شیشه‌ای زرد */
+    color: #000;
+    padding: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.3);
+    z-index: 9999;
+    overflow: hidden;
+    transition: opacity 0.8s ease;
+  }
+  #hadithText { line-height: 1.5; max-height: 6em; overflow: hidden; }
+  #moreBtn, #closeBtn {
+    cursor: pointer;
+    color: blue;
+    text-decoration: underline;
+    margin-left: 10px;
+  }
+</style>
+</head>
+<body>
 
-<!-- بنر احادیث بالای سایت -->
-<div id="hadithBanner" style="position:fixed;top:0;left:0;width:100%;background:rgba(255, 255, 0, 0.5);color:#000;padding:10px;z-index:9999;font-family:Tahoma, sans-serif;box-shadow:0 2px 5px rgba(0,0,0,0.3);">
-  <div id="hadithText" style="max-height:4.8em;overflow-y:auto;line-height:1.2em;padding-right:10px;"></div>
-  <span id="closeBanner" style="position:absolute;top:5px;right:10px;cursor:pointer;font-weight:bold;">✖</span>
+<div id="hadithBox">
+  <div id="hadithText"></div>
+  <span id="moreBtn" style="display:none;">ادامه متن</span>
+  <span id="closeBtn">✖ بستن</span>
 </div>
 
 <script>
+// ۴۰ حدیث کامل
 const hadiths = [
-  "به‌راستى در‌مى‌گذرم از مردمان مسلمانی که ولایت امام عادلی را که از جانب خداوند است پذیرفته‌اند.(کافی1/376)",
-  "تندی نکن با کسی که تو را بر او مسلط کردند تا با تو تندی نکنم.(کافی2/303)",
-  "در نهان و نیز هنگام شادمانی به یاد من باش تا در غفلت‌ها به یادت باشم.(امالی صدوق/254)",
-  "ای آدم! آن‌چه بین من و توست: از تو دعا و از من اجابت.(الخصال1/244)",
-  // ادامه احادیث تا 40
+"به‌راستی در‌می‌گذرم از مردمان مسلمانی که ولایت امام عادلی را که از جانب خداوند است پذیرفته‌اند.(کافی1/376)",
+"تندی نکن با کسی که تو را بر او مسلط کردند تا با تو تندی نکنم.(کافی2/303)",
+"در نهان و نیز هنگام شادمانی به یاد من باش تا در غفلت‌ها به یادت باشم.(امالی صدوق/254)",
+"ای آدم! آن‌چه بین من و توست: از تو دعا و از من اجابت.(الخصال1/244)",
+"ای آدم! هرکدام از فرزندان تو قصد انجام کار نیکی کند، اگر انجام ندهد یک کار نیک و اگر انجام دهد، ده برابر نوشته خواهد شد.(کافی2/440)",
+"ای موسی! آرزوهای بسیاری برای دنیا نداشته باش، زیرا دلت را سخت می‌کند و کسی که دلش سخت باشد از من دور می‌شود.(کافی8/42)",
+"ای موسی! نزد من از بسیاری گناه فریاد برآور، همانند گناه‌کاری که از دشمنش می‌گریزد.(کافی8/42)",
+"ای موسی! مرا در هیچ حالتی فراموش نکن و از بسیاری مال سرمست نشو.(کافی8/45)",
+"ای موسی! توبه را زود انجام بده و گناه را برای بعد بگذار.(کافی8/46)",
+"آن‌گاه که در برابر من به نماز می‌ایستی، شتاب نکن.(کافی8/46)",
+"ای موسی! هر‌که از گناهکاران نزد تو آمد و به تو پناه برد، بگو خوش آمدی و آسوده شدی، چه جایگاه بزرگی است پیشگاه خداوند جهان. و بر ایشان آمرزش بخواه و بر ایشان مانند یکی از خودشان باش.(کافی8/48)",
+"نیکی ده برابر پاداش دارد و یک گناه نابود‌کننده است.(کافی8/49)",
+"ای فرزند آدم! خودت را محو بندگی من کن تا دلت را پر از بی‌نیازی کنم.(کافی2/83)",
+"شکر، نعمت‌ها را افزون و از دیگران بی‌نیاز می‌کند.(کافی2/94)",
+"هرگونه می‌خواهی باش که با هر دست که دهی از همان دست می‌گیری.(کافی2/138)",
+"هر‌که مرا یاد کند همدمش می‌شوم.(کافی2/496)",
+"مال بسیار، گناهان را از یاد می‌برد.(کافی2/497)",
+"یاد من، هر جایی زیباست.(کافی2/497)",
+"آن‌گاه که مرا یاد می‌کنی، فروتن باش.(کافی2/497)",
+"زبان را در پس اندیشه قرار ده تا در امان باشی.(کافی2/498)",
+"با مستحبات به من نزدیک شو.(کافی8/132)",
+"ای عیسی! آن که بر من شوریده و گناه می‌کند تو را نفریبد... آن‌چنان او را به بند می‌کشم که راه گریزی نداشته باشد.(کافی8/133)",
+"باید که زبانت در نهان و آشکار، یکی باشد.(کافی8/134)",
+"ای داوود! همان‌گونه که نزدیک‌ترین مردم به خدا، فروتنان هستند، دورترین مردم از خدا، متکبران هستند.(کافی2/124)",
+"هر‌که بنده‌ی مؤمن مرا بیازارد، باید با من اعلام جنگ کند.(کافی2/305)",
+"ای محمد! هر‌که ولی مرا بیازارد به جنگ من برخاسته است.(کافی2/352)",
+"بنده‌ام با چیزی بهتر از واجبات به من نزدیک نمی‌شود... اگر دعایم کند اجابتش می‌کنم و اگر از من بخواهد به او می‌دهم.(کافی2/353)",
+"وای بر کسانی که با فریب، دین را به دنیا می‌فروشند.(کافی2/299)",
+"ای احمد! پرهیزکاری، زینت مؤمن و ستون برپایی دین است.(ارشادالقلوب1/203)",
+"ای احمد! عبادت ده بخش دارد که نُه بخش آن، به دست آوردن روزی حلال است.(ارشادالقلوب1/203)",
+"ای احمد! می‌دانی به کدام دلیل تو را بر دیگر انبیا برتری دادم؟ به دلیل یقین و حسن خلق و سخاوت نفس و دلسوزی برای مردم.(ارشادالقلوب1/205)",
+"ای احمد! اندیشه‌ات را به‌کار گیر پیش از آن‌که از دست برود... کسی که اندیشه‌اش را به‌کار بندد، اشتباه نمی‌کند.(ارشادالقلوب1/205)",
+"چنان‌که هیچ درختی بدون میوه کامل نیست، ایمان نیز بدون کنار گذاشتن کارهای حرام کامل نمی‌شود.(علل‌الشرایع1/250)",
+"برادرت علی را بشارت ده، که من دوست‌دار او را عذاب نمی‌کنم و به دشمن او رحم نمی‌کنم.(امالی صدوق39)",
+"لا اله الله دژ(امان) من است، کسی که وارد آن شود، از عذاب من در امان است.(امالی‌الصدوق235)",
+"(ای آدم!) اگر این‌ها(اهل بیت علیهم‌السلام) نبودند، نه تو را می‌آفریدم و نه بهشت و جهنم را، و نه آسمان و زمین را.(معانی‌الاخبار124)",
+"من بی‌نیازترین شریک هستم، هر کس کاری انجام دهد و دیگری را شریک کند، من از آن بیزارم.(بحار67/222)",
+"ولایت علی بن ابی طالب(ع) دژ (امان) من است هرکه وارد آن شود، از عذاب من در امان خواهد بود.(عیون اخبارالرضا(ع)1/146)",
+"همانا علی امام پرهیزگاران و رهبر روسفیدان پاک و پادشاه مؤمنان است.(امالی صدوق352)",
+"اگر علی را نیافریده بودم، همسری مناسب فاطمه، از فرزندان آدم و نسل او نبود.(عیون اخبارالرضا(ع)203)"
 ];
 
-let currentIndex = Math.floor(Math.random() * hadiths.length);
-
-const hadithText = document.getElementById("hadithText");
-const banner = document.getElementById("hadithBanner");
-const closeBanner = document.getElementById("closeBanner");
-
-// نمایش حدیث با افکت
-function showHadith(index) {
-  hadithText.style.opacity = 0;
-  setTimeout(() => {
-    hadithText.innerHTML = hadiths[index];
-    hadithText.style.opacity = 1;
-    hadithText.style.transition = "opacity 1s";
-  }, 200);
+let currentHadith = '';
+function getRandomHadith() {
+  return hadiths[Math.floor(Math.random() * hadiths.length)];
 }
 
-// نمایش اولیه
-showHadith(currentIndex);
+const hadithText = document.getElementById('hadithText');
+const moreBtn = document.getElementById('moreBtn');
+const closeBtn = document.getElementById('closeBtn');
 
-// تغییر حدیث هر 14 ثانیه
-setInterval(() => {
-  currentIndex = Math.floor(Math.random() * hadiths.length);
-  showHadith(currentIndex);
-}, 14000);
+function showHadith() {
+  currentHadith = getRandomHadith();
+  if(currentHadith.length > 120) { // اگر طول حدیث زیاد بود
+    hadithText.innerHTML = currentHadith.substring(0, 120) + '...';
+    moreBtn.style.display = 'inline';
+  } else {
+    hadithText.textContent = currentHadith;
+    moreBtn.style.display = 'none';
+  }
+  hadithBox.style.opacity = 0;
+  setTimeout(()=>{hadithBox.style.opacity = 1;},50);
+}
 
-// بستن بنر
-closeBanner.onclick = () => {
-  banner.style.display = "none";
-};
+moreBtn.addEventListener('click', () => {
+  hadithText.textContent = currentHadith;
+  moreBtn.style.display = 'none';
+});
+
+closeBtn.addEventListener('click', () => {
+  hadithBox.style.display = 'none';
+});
+
+showHadith();
+setInterval(showHadith, 14000);
+
 </script>
+
+</body>
+</html>
