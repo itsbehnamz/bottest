@@ -166,7 +166,6 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -174,17 +173,14 @@ spinBtn.addEventListener('click', ()=>{
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>لینک‌های ما</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600&display=swap');
-
   html, body {
     margin: 0;
     padding: 0;
-    font-family: 'Vazirmatn', sans-serif;
+    font-family: sans-serif;
+    text-align: center;
     background: transparent;
-    text-align: center; /* مرکز افقی */
   }
 
-  /* دکمه منو وسط بالای صفحه */
   .menu-button {
     background: linear-gradient(135deg, #f39c12, #e67e22);
     color: white;
@@ -193,26 +189,11 @@ spinBtn.addEventListener('click', ()=>{
     padding: 10px 22px;
     font-size: 15px;
     cursor: pointer;
-    overflow: hidden;
-    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
     margin-top: 10px;
     display: inline-block;
     position: relative;
   }
 
-  /* افکت موجی */
-  .ripple {
-    position: absolute;
-    border-radius: 50%;
-    transform: scale(0);
-    animation: ripple-animation 0.6s linear;
-    background: rgba(255,255,255,0.5);
-  }
-  @keyframes ripple-animation {
-    to { transform: scale(4); opacity: 0; }
-  }
-
-  /* منوی بازشونده زیر دکمه */
   .menu {
     display: none;
     flex-direction: column;
@@ -228,10 +209,10 @@ spinBtn.addEventListener('click', ()=>{
     text-decoration: none;
     color: #d35400;
     padding: 10px 22px;
+    border-bottom: 1px solid #f1f1f1;
     font-weight: 600;
     font-size: 14px;
     display: block;
-    border-bottom: 1px solid #f1f1f1;
   }
 
   .menu a:last-child {
@@ -252,15 +233,16 @@ spinBtn.addEventListener('click', ()=>{
 </head>
 <body>
 
-<button class="menu-button" id="menuBtn">🔗 لینک‌های ما</button>
-
-<div class="menu" id="menu">
-  <a href="https://t.me/BehQuranbot" target="_blank">🤖 ربات قرآن فارسی (تلگرام)</a>
-  <a href="https://ble.ir/BehQuranbot" target="_blank">💬 ربات قرآن فارسی (بله)</a>
-  <a href="https://instagram.com/itszolfi" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
-    صفحه اینستاگرام سازنده
-  </a>
+<div style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 9999;">
+  <button class="menu-button" id="menuBtn">🔗 لینک‌های ما</button>
+  <div class="menu" id="menu">
+    <a href="https://t.me/BehQuranbot" target="_blank">🤖 ربات قرآن فارسی (تلگرام)</a>
+    <a href="https://ble.ir/BehQuranbot" target="_blank">💬 ربات قرآن فارسی (بله)</a>
+    <a href="https://instagram.com/itszolfi" target="_blank">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
+      صفحه اینستاگرام سازنده
+    </a>
+  </div>
 </div>
 
 <script>
@@ -268,32 +250,15 @@ spinBtn.addEventListener('click', ()=>{
   const menu = document.getElementById('menu');
 
   // باز و بسته شدن منو با کلیک روی دکمه
-  menuBtn.addEventListener('click', function(e) {
-    const circle = document.createElement("span");
-    const diameter = Math.max(this.clientWidth, this.clientHeight);
-    const rect = this.getBoundingClientRect();
-    const x = e.clientX - rect.left - diameter / 2;
-    const y = e.clientY - rect.top - diameter / 2;
-    circle.style.width = circle.style.height = `${diameter}px`;
-    circle.style.left = `${x}px`;
-    circle.style.top = `${y}px`;
-    circle.classList.add("ripple");
-    const ripple = this.getElementsByClassName("ripple")[0];
-    if (ripple) ripple.remove();
-    this.appendChild(circle);
-
-    menu.style.display = menu.style.display === "flex" ? "none" : "flex";
-  });
-
-  // بستن منو هنگام کلیک روی لینک بعد از باز شدن لینک در تب جدید
-  document.querySelectorAll('.menu a').forEach(link => {
-    link.addEventListener('click', (e) => {
+  menuBtn.addEventListener('click', () => {
+    if(menu.style.display === 'flex') {
       menu.style.display = 'none';
-      // لینک در تب جدید باز می‌شود بخاطر target="_blank"
-    });
+    } else {
+      menu.style.display = 'flex';
+    }
   });
 
-  // بستن منو با کلیک بیرون
+  // جمع کردن منو با کلیک بیرون (نه روی لینک)
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
       menu.style.display = 'none';
@@ -303,4 +268,3 @@ spinBtn.addEventListener('click', ()=>{
 
 </body>
 </html>
-.
