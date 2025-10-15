@@ -208,14 +208,23 @@ spinBtn.addEventListener('click', ()=>{
     white-space: pre-wrap;
     word-wrap: break-word;
   }
+ <style>
+  .hadithText {
+    animation: colorShift 5s infinite alternate;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+  }
   @keyframes colorShift {
-    0% { color: #000; }
-    25% { color: #2ecc71; }
-    50% { color: #f1c40f; }
-    75% { color: #3498db; }
-    100% { color: #9b59b6; }
+    0% { color: #ffff00; }   /* زرد */
+    25% { color: #ff0000; }  /* قرمز */
+    50% { color: #ffffff; }  /* سفید */
+    75% { color: #000000; }  /* سیاه */
+    100% { color: #ffff00; } /* زرد دوباره */
   }
 </style>
+
+  
 </head>
 <body>
 
