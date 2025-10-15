@@ -167,142 +167,93 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>حدیث با ترجمه فارسی</title>
-  <style>
-    #hadithTop {
-      position: fixed;
-      left: 50%;
-      top: 0;
-      transform: translateX(-50%);
-      z-index: 9999;
-      max-width: 95%;
-      width: min(900px, 95%);
-      padding: 12px 16px;
-      margin-top: 8px;
-      background: rgba(255,255,255,0.92);
-      box-shadow: 0 6px 20px rgba(0,0,0,0.12);
-      border-radius: 10px;
-      text-align: center;
-      font-weight: 700;
-      font-family: Tahoma, "Helvetica Neue", Arial, sans-serif;
-      line-height: 1.4;
-      color: #111;
-      pointer-events: none;
-    }
-    #hadithTop .text { display:block; font-size:16px; }
-    #hadithTop .meta { display:block; font-size:12px; margin-top:6px; font-weight:600; opacity:0.8; }
-    @media (max-width:420px){ #hadithTop{ font-size:14px; padding:10px; } }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>احادیث قدسی</title>
+
+<style>
+  body {
+    background: #111;
+    color: #fff;
+    font-family: "Noto Nastaliq Urdu", "B Nazanin", serif;
+    display: flex;
+    justify-content: center;
+    align-items: start;
+    min-height: 100vh;
+    padding-top: 30px;
+    text-align: center;
+    direction: rtl;
+    overflow-x: hidden;
+  }
+
+  #hadith-box {
+    max-width: 90%;
+    width: 700px;
+    background: rgba(255, 255, 255, 0.07);
+    padding: 25px;
+    border-radius: 20px;
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+    transition: opacity 1s ease;
+    opacity: 0;
+  }
+
+  #hadith-text {
+    font-size: 1.3rem;
+    line-height: 2.2rem;
+  }
+
+  #hadith-source {
+    margin-top: 15px;
+    font-size: 1rem;
+    color: #ffda6a;
+  }
+
+  .fade-in {
+    opacity: 1;
+  }
+</style>
 </head>
 <body>
 
-<div id="hadithTop" aria-live="polite">
-  <span class="text">در حال دریافت...</span>
-  <span class="meta"></span>
-</div>
+  <div id="hadith-box">
+    <div id="hadith-text">در حال بارگذاری...</div>
+    <div id="hadith-source"></div>
+  </div>
 
 <script>
-(async function(){
-  const hadithTop = document.getElementById('hadithTop');
-  const textEl = hadithTop.querySelector('.text');
-  const metaEl = hadithTop.querySelector('.meta');
+async function loadHadiths() {
+  try {
+    const response = await fetch('ahadith40.json');
+    const hadiths = await response.json();
+    let index = 0;
+    const box = document.getElementById('hadith-box');
+    const text = document.getElementById('hadith-text');
+    const source = document.getElementById('hadith-source');
 
-  const CDN_BASE = 'https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1';
-  const EDITIONS_URL = CDN_BASE + '/editions.min.json';
-  const CORS_PROXY = 'https://api.allorigins.win/raw?url='; // fallback
-
-  async function fetchWithCors(url) {
-    try {
-      const res = await fetch(url);
-      if(!res.ok) throw new Error('HTTP '+res.status);
-      return await res.json();
-    } catch {
-      const proxied = CORS_PROXY + encodeURIComponent(url);
-      const res2 = await fetch(proxied);
-      if(!res2.ok) throw new Error('Proxy HTTP '+res2.status);
-      const text = await res2.text();
-      try { return JSON.parse(text); } catch(e){ return text; }
+    function showHadith(i) {
+      box.classList.remove('fade-in');
+      setTimeout(() => {
+        text.textContent = hadiths[i].text;
+        source.textContent = hadiths[i].source ? `(${hadiths[i].source})` : '';
+        box.classList.add('fade-in');
+      }, 500);
     }
+
+    showHadith(index);
+    setInterval(() => {
+      index = (index + 1) % hadiths.length;
+      showHadith(index);
+    }, 30000); // هر ۳۰ ثانیه
+  } catch (err) {
+    document.getElementById('hadith-text').textContent = "خطا در بارگذاری احادیث";
+    console.error(err);
   }
+}
 
-  async function translateToFarsi(text) {
-    try {
-      const res = await fetch('https://libretranslate.de/translate', {
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body: JSON.stringify({q:text,source:'en',target:'fa',format:'text'})
-      });
-      const data = await res.json();
-      return data.translatedText || text;
-    } catch(e){
-      console.error('Translation error:', e);
-      return text;
-    }
-  }
-
-  async function showRandomHadith(){
-    try {
-      const editions = await fetchWithCors(EDITIONS_URL);
-      const pool = Array.isArray(editions)?editions: [];
-      if(!pool.length) throw new Error('No editions found');
-      const pickEdition = pool[Math.floor(Math.random()*pool.length)];
-      const editionName = pickEdition.edition||pickEdition.name||pickEdition.file||pickEdition.id||pickEdition;
-      const editionUrls = [`${CDN_BASE}/editions/${editionName}.min.json`, `${CDN_BASE}/editions/${editionName}.json`];
-      let editionData = null;
-      for(const url of editionUrls){
-        try{ editionData = await fetchWithCors(url); break; }catch{}
-      }
-      if(!editionData) throw new Error('Edition data not found');
-
-      let hadithList = Array.isArray(editionData)?editionData: editionData.hadiths||editionData.data||[];
-      if(!hadithList.length){
-        for(const k in editionData){ if(Array.isArray(editionData[k])){ hadithList = editionData[k]; break; } }
-      }
-      if(!hadithList.length) throw new Error('No hadiths in edition');
-
-      const chosen = hadithList[Math.floor(Math.random()*hadithList.length)];
-      let text = chosen.text || chosen.body || chosen.hadith || chosen.content || chosen.arabic || chosen.english || '';
-      if(!text){
-        if(typeof chosen === 'string') text=chosen;
-        else{
-          for(const key of ['english','en','translation','text','hadith','body','content','arabic']){
-            if(chosen[key] && typeof chosen[key]==='string'){ text=chosen[key]; break; }
-          }
-        }
-      }
-
-      // ترجمه به فارسی
-      const textFa = await translateToFarsi(text);
-
-      let meta = '';
-      const refs = [];
-      if(chosen.book) refs.push(chosen.book);
-      if(chosen.chapter) refs.push(chosen.chapter);
-      if(chosen.reference) refs.push(chosen.reference);
-      if(chosen.grade) refs.push(chosen.grade);
-      if(chosen.hadith_number) refs.push('#'+chosen.hadith_number);
-      if(chosen.id) refs.push(chosen.id);
-      if(refs.length) meta=refs.join(' • ');
-
-      textEl.textContent = textFa;
-      metaEl.textContent = meta;
-
-    } catch(e){
-      console.error('Hadith fetch/translate error:', e);
-      textEl.textContent = 'خطا در دریافت حدیث — لطفاً بعداً امتحان کنید.';
-      metaEl.textContent='';
-    }
-  }
-
-  if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',showRandomHadith);
-  else showRandomHadith();
-})();
+loadHadiths();
 </script>
 
 </body>
