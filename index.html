@@ -166,79 +166,44 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
-<!DOCTYPE html>
-<html lang="fa" dir="rtl">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>احادیث قدسی</title>
-
-<style>
-  body {
-    background: #111;
-    color: #fff;
-    font-family: "Noto Nastaliq Urdu", "B Nazanin", serif;
-    display: flex;
-    justify-content: center;
-    align-items: start;
-    min-height: 100vh;
-    padding-top: 30px;
-    text-align: center;
-    direction: rtl;
-    overflow-x: hidden;
-  }
-
-  #hadith-box {
-    max-width: 90%;
-    width: 700px;
-    background: rgba(255, 255, 255, 0.07);
-    padding: 25px;
-    border-radius: 20px;
-    box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
-    transition: opacity 1s ease;
-    opacity: 0;
-  }
-
-  #hadith-text {
-    font-size: 1.3rem;
-    line-height: 2.2rem;
-  }
-
-  #hadith-source {
-    margin-top: 15px;
-    font-size: 1rem;
-    color: #ffda6a;
-  }
-
-  .fade-in {
-    opacity: 1;
-  }
-</style>
-</head>
-<body>
-
-  <div id="hadith-box">
-    <div id="hadith-text">در حال بارگذاری...</div>
-    <div id="hadith-source"></div>
-  </div>
+<!-- 👇 این بخش را در <body> سایتت بگذار، بالاتر از همه عناصر -->
+<div id="hadith-box" style="
+  position: fixed;
+  top: 10px;
+  right: 50%;
+  transform: translateX(50%);
+  background: rgba(255,255,255,0.8);
+  color: #000;
+  font-family: 'B Nazanin', serif;
+  font-size: 18px;
+  padding: 10px 20px;
+  border-radius: 15px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  z-index: 9999;
+  max-width: 80%;
+  text-align: center;
+  transition: opacity 0.8s ease;
+">
+  <div id="hadith-text">در حال بارگذاری...</div>
+  <div id="hadith-source" style="font-size:14px; color:#444; margin-top:5px;"></div>
+</div>
 
 <script>
 async function loadHadiths() {
   try {
-    const response = await fetch('ahadith40.json');
+    const response = await fetch('ahadith40.json'); // فایل جیسون کنار html باشه
     const hadiths = await response.json();
     let index = 0;
-    const box = document.getElementById('hadith-box');
     const text = document.getElementById('hadith-text');
     const source = document.getElementById('hadith-source');
+    const box = document.getElementById('hadith-box');
 
     function showHadith(i) {
-      box.classList.remove('fade-in');
+      box.style.opacity = "0";
       setTimeout(() => {
         text.textContent = hadiths[i].text;
         source.textContent = hadiths[i].source ? `(${hadiths[i].source})` : '';
-        box.classList.add('fade-in');
+        box.style.opacity = "1";
       }, 500);
     }
 
@@ -246,15 +211,12 @@ async function loadHadiths() {
     setInterval(() => {
       index = (index + 1) % hadiths.length;
       showHadith(index);
-    }, 30000); // هر ۳۰ ثانیه
-  } catch (err) {
-    document.getElementById('hadith-text').textContent = "خطا در بارگذاری احادیث";
-    console.error(err);
+    }, 30000); // هر ۳۰ ثانیه حدیث جدید
+  } catch (e) {
+    document.getElementById('hadith-text').textContent = "❌ خطا در بارگذاری احادیث";
+    console.error(e);
   }
 }
 
 loadHadiths();
 </script>
-
-</body>
-</html>
