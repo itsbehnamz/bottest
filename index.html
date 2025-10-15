@@ -166,6 +166,7 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
+
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -209,10 +210,10 @@ spinBtn.addEventListener('click', ()=>{
     text-decoration: none;
     color: #d35400;
     padding: 10px 22px;
-    border-bottom: 1px solid #f1f1f1;
     font-weight: 600;
     font-size: 14px;
     display: block;
+    border-bottom: 1px solid #f1f1f1;
   }
 
   .menu a:last-child {
@@ -236,9 +237,9 @@ spinBtn.addEventListener('click', ()=>{
 <div style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 9999;">
   <button class="menu-button" id="menuBtn">🔗 لینک‌های ما</button>
   <div class="menu" id="menu">
-    <a href="https://t.me/BehQuranbot" target="_blank">🤖 ربات قرآن فارسی (تلگرام)</a>
-    <a href="https://ble.ir/BehQuranbot" target="_blank">💬 ربات قرآن فارسی (بله)</a>
-    <a href="https://instagram.com/itszolfi" target="_blank">
+    <a href="https://t.me/BehQuranbot" target="_blank" rel="noopener noreferrer">🤖 ربات قرآن فارسی (تلگرام)</a>
+    <a href="https://ble.ir/BehQuranbot" target="_blank" rel="noopener noreferrer">💬 ربات قرآن فارسی (بله)</a>
+    <a href="https://instagram.com/itszolfi" target="_blank" rel="noopener noreferrer">
       <img src="https://upload.wikimedia.org/wikipedia/commons/a/a5/Instagram_icon.png" alt="Instagram">
       صفحه اینستاگرام سازنده
     </a>
@@ -251,11 +252,7 @@ spinBtn.addEventListener('click', ()=>{
 
   // باز و بسته شدن منو با کلیک روی دکمه
   menuBtn.addEventListener('click', () => {
-    if(menu.style.display === 'flex') {
-      menu.style.display = 'none';
-    } else {
-      menu.style.display = 'flex';
-    }
+    menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
   });
 
   // جمع کردن منو با کلیک بیرون (نه روی لینک)
