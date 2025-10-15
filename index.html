@@ -171,11 +171,12 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
+
 <!-- بنر احادیث بالای سایت -->
 <div id="hadithBanner" style="position:fixed;top:0;left:0;width:100%;background:rgba(255, 255, 0, 0.5);color:#000;padding:10px;z-index:9999;font-family:Tahoma, sans-serif;box-shadow:0 2px 5px rgba(0,0,0,0.3);">
-  <div id="hadithText" style="display:inline-block;max-width:90%;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;"></div>
-  <span id="readMore" style="color:red;cursor:pointer;display:none;margin-left:5px;">ادامه متن</span>
-  <span id="closeBanner" style="float:right;cursor:pointer;font-weight:bold;">✖</span>
+  <div id="hadithText" style="display:flex;flex-direction:column;max-width:90%;overflow:hidden;"></div>
+  <span id="readMore" style="color:red;cursor:pointer;display:none;margin-top:5px;">ادامه متن</span>
+  <span id="closeBanner" style="position:absolute;top:5px;right:10px;cursor:pointer;font-weight:bold;">✖</span>
 </div>
 
 <script>
@@ -185,7 +186,7 @@ const hadiths = [
   "در نهان و نیز هنگام شادمانی به یاد من باش تا در غفلت‌ها به یادت باشم.(امالی صدوق/254)",
   "ای آدم! آن‌چه بین من و توست: از تو دعا و از من اجابت.(الخصال1/244)",
   "ای آدم! هرکدام از فرزندان تو قصد انجام کار نیکی کند، اگر انجام ندهد یک کار نیک و اگر انجام دهد، ده برابر نوشته خواهد شد.(کافی2/440)",
-  // ... بقیه احادیث تا 40
+  // ادامه احادیث تا 40
 ];
 
 let currentIndex = Math.floor(Math.random() * hadiths.length);
@@ -197,17 +198,20 @@ const closeBanner = document.getElementById("closeBanner");
 
 function showHadith(index) {
   const fullText = hadiths[index];
-  // دو خط افقی: تقریباً نصف طول متن
-  const splitIndex = Math.floor(fullText.length / 2);
-  const firstPart = fullText.slice(0, splitIndex);
-  const secondPart = fullText.slice(splitIndex);
+  const maxLengthPerLine = 100; // تعداد کاراکتر تقریبی هر خط
+  let firstLine = fullText.slice(0, maxLengthPerLine);
+  let secondLine = fullText.slice(maxLengthPerLine, maxLengthPerLine*2);
+  let remaining = fullText.slice(maxLengthPerLine*2);
 
-  hadithText.innerHTML = firstPart + " " + secondPart.slice(0, 80) + (secondPart.length > 80 ? "..." : "");
-  
-  if (secondPart.length > 80) {
+  hadithText.innerHTML = `
+    <div>${firstLine}</div>
+    <div>${secondLine}${remaining ? '...' : ''}</div>
+  `;
+
+  if (remaining) {
     readMore.style.display = "inline";
     readMore.onclick = () => {
-      hadithText.innerHTML = fullText;
+      hadithText.innerHTML = `<div>${fullText}</div>`;
       readMore.style.display = "none";
     };
   } else {
