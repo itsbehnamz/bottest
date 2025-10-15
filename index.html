@@ -166,7 +166,6 @@ spinBtn.addEventListener('click', ()=>{
 
 
 
-
 <!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
@@ -182,6 +181,14 @@ spinBtn.addEventListener('click', ()=>{
     background: transparent;
   }
 
+  .menu-container {
+    position: fixed;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+  }
+
   .menu-button {
     background: linear-gradient(135deg, #f39c12, #e67e22);
     color: white;
@@ -190,7 +197,6 @@ spinBtn.addEventListener('click', ()=>{
     padding: 10px 22px;
     font-size: 15px;
     cursor: pointer;
-    margin-top: 10px;
     display: inline-block;
     position: relative;
   }
@@ -202,8 +208,8 @@ spinBtn.addEventListener('click', ()=>{
     border-radius: 12px;
     box-shadow: 0 4px 10px rgba(0,0,0,0.25);
     padding: 0;
-    margin: 0 auto;
-    min-width: 200px;
+    margin: 5px auto 0 auto;
+    min-width: 220px;
   }
 
   .menu a {
@@ -234,7 +240,7 @@ spinBtn.addEventListener('click', ()=>{
 </head>
 <body>
 
-<div style="position: fixed; top: 0; left: 50%; transform: translateX(-50%); z-index: 9999;">
+<div class="menu-container">
   <button class="menu-button" id="menuBtn">🔗 لینک‌های ما</button>
   <div class="menu" id="menu">
     <a href="https://t.me/BehQuranbot" target="_blank" rel="noopener noreferrer">🤖 ربات قرآن فارسی (تلگرام)</a>
@@ -250,17 +256,20 @@ spinBtn.addEventListener('click', ()=>{
   const menuBtn = document.getElementById('menuBtn');
   const menu = document.getElementById('menu');
 
-  // باز و بسته شدن منو با کلیک روی دکمه
-  menuBtn.addEventListener('click', () => {
+  menuBtn.addEventListener('click', (e) => {
+    e.stopPropagation(); // جلوگیری از بستن منو هنگام کلیک روی دکمه
     menu.style.display = menu.style.display === 'flex' ? 'none' : 'flex';
   });
 
-  // جمع کردن منو با کلیک بیرون (نه روی لینک)
+  // جمع کردن منو با کلیک بیرون از منو
   document.addEventListener('click', (e) => {
     if (!menu.contains(e.target) && !menuBtn.contains(e.target)) {
       menu.style.display = 'none';
     }
   });
+
+  // هیچ دستور بستن منو هنگام کلیک روی لینک نیست
+  // لینک‌ها با target="_blank" در تب جدید باز می‌شوند
 </script>
 
 </body>
