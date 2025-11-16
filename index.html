@@ -102,16 +102,26 @@ slots[2].textContent = surahNames[0]; // مرکز رولت پیش‌فرض ال�
 slots[3].textContent = surahNames[3];
 slots[4].textContent = surahNames[4];
 
+
 async function fetchTranslation(num){
   translation.textContent='در حال دریافت ترجمه...';
   try{
-    const r=await fetch(`https://www.ansarian.org/quran/translation/surah/${num}/fa`);
-    const j=await r.json();
-    const ay=j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
+    // API پایدار و JSON محور
+    const r = await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
+    const j = await r.json();
+
+    // استخراج آیات
+    const ay = j.data.ayahs.map(a => `${a.numberInSurah}. ${a.text}`);
     translation.innerHTML = ay.join('<br><br>');
+
+    // نمایش نام سوره
     titleEl.textContent = `${num}. ${surahNames[num-1]}`;
-  }catch(e){ translation.textContent='خطا در بارگذاری ترجمه.'; }
+  }catch(e){
+    translation.textContent='خطا در بارگذاری ترجمه.';
+    console.error('Translation fetch error:', e);
+  }
 }
+
 
 function playAudio(num){
   audio.src = `https://quranmehr.ir/files/audio/${num}-${surahEn[num-1]}.mp3`;
