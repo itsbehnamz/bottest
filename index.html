@@ -106,22 +106,16 @@ slots[4].textContent = surahNames[4];
 async function fetchTranslation(num){
   translation.textContent='در حال دریافت ترجمه...';
   try{
-    // API پایدار و JSON محور
     const r = await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
     const j = await r.json();
-
-    // استخراج آیات
     const ay = j.data.ayahs.map(a => `${a.numberInSurah}. ${a.text}`);
     translation.innerHTML = ay.join('<br><br>');
-
-    // نمایش نام سوره
     titleEl.textContent = `${num}. ${surahNames[num-1]}`;
-  }catch(e){
+  } catch(e) {
     translation.textContent='خطا در بارگذاری ترجمه.';
-    console.error('Translation fetch error:', e);
+    console.error(e);
   }
 }
-
 
 function playAudio(num){
   audio.src = `https://quranmehr.ir/files/audio/${num}-${surahEn[num-1]}.mp3`;
