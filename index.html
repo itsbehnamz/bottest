@@ -105,7 +105,7 @@ slots[4].textContent = surahNames[4];
 async function fetchTranslation(num){
   translation.textContent='در حال دریافت ترجمه...';
   try{
-    const r=await fetch(`https://api.alquran.cloud/v1/surah/${num}/fa.ansarian`);
+    const r=await fetch(`https://www.ansarian.org/quran/translation/surah/${num}/fa`);
     const j=await r.json();
     const ay=j.data.ayahs.map(a=>`${a.numberInSurah}. ${a.text}`);
     translation.innerHTML = ay.join('<br><br>');
